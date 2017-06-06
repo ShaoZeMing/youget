@@ -16,6 +16,7 @@ window.Vue = require('vue');
  */
 
 Vue.component('example', require('./components/Example.vue'));
+Vue.component('send-code-field', require('./components/SendCodeField.vue'));
 
 const app = new Vue({
     el: '#app'
