@@ -5,13 +5,17 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Dashboard</div>
+                <div class="panel-heading">首页</div>
 
                 <div class="panel-body">
-                    You are logged in!
+                    <form class="form-horizontal" role="form">
+                        <send-code-field></send-code-field>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<example></example>
 @endsection
