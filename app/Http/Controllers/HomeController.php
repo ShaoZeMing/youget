@@ -64,7 +64,11 @@ class HomeController extends Controller
 
             $push = app('PushManager')->driver('ge_tui');
             $getuiResponse =  $push->pushOne($data);
+            $pushs =json_encode($push);
             $res =json_encode($getuiResponse);
+            echo '<br>';
+            echo $pushs;
+            echo '<br>';
             echo $res;
             Log::info(json_encode($getuiResponse), [__METHOD__]);
         }catch (\Exception $e){
