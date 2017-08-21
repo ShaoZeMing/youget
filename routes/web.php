@@ -19,6 +19,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/push', 'HomeController@push')->name('push');
+Route::post('/push', 'HomeController@push')->name('push');
 
 
 

@@ -47,17 +47,12 @@ class HomeController extends Controller
         echo "发送push 中";
         try{
             Log::info('testPush',[__METHOD__]);
-            $fields = [
-                'id',
-                'worker_id',
-                'worker_name',
-                'order_no',
-                'state',
-            ];
             $deviceId='b2e5b64931f06f617e363b74c8057cf6';
-            $title = '今天天气好';
-            $content = '个推test！您负责的的工单已经追加元';
+            $title = 'getui test';
+            $content = '123123,test 您负责的的工单已经追加元';
 
+            $title = request()->get('title',$title);
+            $content = request()->get('content',$content);
             $transContentArr = [
                 'title' => $title,
                 'content' => $content,
