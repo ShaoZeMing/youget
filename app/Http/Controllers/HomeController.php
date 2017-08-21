@@ -53,13 +53,19 @@ class HomeController extends Controller
 
             $title = request()->get('title',$title);
             $content = request()->get('content',$content);
-            $transContentArr = [
+            $deviceId = request()->get('device_id',$deviceId);
+
+            $data = [
+                'type' => 9,
                 'title' => $title,
                 'content' => $content,
+                'device_id'=> $deviceId,
             ];
 
-            $transContent = json_encode($transContentArr);
-            $getuiResponse = app('GeTuiService')->pushToSignal($deviceId, $transContent, $content, $title);
+            $push = app('PushManager')->driver('ge_tui');
+            $getuiResponse =  $push->pushOne($data);
+            $res =json_encode($getuiResponse);
+            echo $res;
             Log::info(json_encode($getuiResponse), [__METHOD__]);
         }catch (\Exception $e){
             echo "Error : 错误".$e->getMessage();
