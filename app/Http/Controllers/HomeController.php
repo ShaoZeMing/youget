@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class HomeController extends Controller
@@ -40,10 +39,25 @@ class HomeController extends Controller
     }
 
 
-    public function push( )
+    public function push()
     {
 
-//        $deviceId = request()->get('device_id',$deviceId);
+
+        echo "发送push 中";
+        try {
+            Log::info('testPush', [__METHOD__]);
+            $deviceId = 'b2e5b64931f06f617e363b74c8057cf6';
+            $title = 'getui test';
+            $content = '123123,test 您负责的的工单已经追加元';
+
+            $title = request()->get('title', $title);
+            $content = request()->get('content', $content);
+            $transContentArr = [
+                'title' => $title,
+                'content' => $content,
+            ];
+
+            //        $deviceId = request()->get('device_id',$deviceId);
 //
 //        $data = [
 //            'type' => 9,
@@ -52,34 +66,25 @@ class HomeController extends Controller
 //            'device_id'=> $deviceId,
 //        ];
 //
-//        $push = app('PushManager')->driver('ge_tui');
-//        $getuiResponse =  $push->pushOne($data);
+
 //        $pushs =json_encode($push);
 //        $res =json_encode($getuiResponse);
 //        echo '<br>';
 //        echo $pushs;
 //        echo '<br>';
 //        echo $res;
-        echo "发送push 中";
-        try{
-            Log::info('testPush',[__METHOD__]);
-            $deviceId='b2e5b64931f06f617e363b74c8057cf6';
-            $title = 'getui test';
-            $content = '123123,test 您负责的的工单已经追加元';
-
-            $title = request()->get('title',$title);
-            $content = request()->get('content',$content);
-            $transContentArr = [
-                'title' => $title,
-                'content' => $content,
-            ];
 
             $transContent = json_encode($transContentArr);
-            $getuiResponse = app('GeTuiService')->pushToSignal($deviceId, $transContent, $content, $title);
-            $res =json_encode($getuiResponse);
+            $push = app('PushManager')->driver('ge_tui');
+            $getuiResponse = $push->pushToSignal($deviceId, $transContent, $content, $title);
+//            $getuiResponse = app('GeTuiService')->pushToSignal($deviceId, $transContent, $content, $title);
+
+            $res = json_encode($getuiResponse);
+            echo '<br>';
+            echo $res;
             Log::info($res, [__METHOD__]);
-        }catch (\Exception $e){
-            echo "Error : 错误".$e->getMessage();
+        } catch (\Exception $e) {
+            echo "Error : 错误" . $e->getMessage();
         }
 
     }
