@@ -43,7 +43,23 @@ class HomeController extends Controller
     public function push( )
     {
 
-
+//        $deviceId = request()->get('device_id',$deviceId);
+//
+//        $data = [
+//            'type' => 9,
+//            'title' => $title,
+//            'content' => $content,
+//            'device_id'=> $deviceId,
+//        ];
+//
+//        $push = app('PushManager')->driver('ge_tui');
+//        $getuiResponse =  $push->pushOne($data);
+//        $pushs =json_encode($push);
+//        $res =json_encode($getuiResponse);
+//        echo '<br>';
+//        echo $pushs;
+//        echo '<br>';
+//        echo $res;
         echo "发送push 中";
         try{
             Log::info('testPush',[__METHOD__]);
@@ -53,24 +69,15 @@ class HomeController extends Controller
 
             $title = request()->get('title',$title);
             $content = request()->get('content',$content);
-            $deviceId = request()->get('device_id',$deviceId);
-
-            $data = [
-                'type' => 9,
+            $transContentArr = [
                 'title' => $title,
                 'content' => $content,
-                'device_id'=> $deviceId,
             ];
 
-            $push = app('PushManager')->driver('ge_tui');
-            $getuiResponse =  $push->pushOne($data);
-            $pushs =json_encode($push);
+            $transContent = json_encode($transContentArr);
+            $getuiResponse = app('GeTuiService')->pushToSignal($deviceId, $transContent, $content, $title);
             $res =json_encode($getuiResponse);
-            echo '<br>';
-            echo $pushs;
-            echo '<br>';
-            echo $res;
-            Log::info(json_encode($getuiResponse), [__METHOD__]);
+            Log::info($res, [__METHOD__]);
         }catch (\Exception $e){
             echo "Error : 错误".$e->getMessage();
         }
