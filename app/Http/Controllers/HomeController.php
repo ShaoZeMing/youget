@@ -59,12 +59,11 @@ class HomeController extends Controller
 
             //        $deviceId = request()->get('device_id',$deviceId);
 //
-//        $data = [
+        $data = [
 //            'type' => 9,
-//            'title' => $title,
-//            'content' => $content,
-//            'device_id'=> $deviceId,
-//        ];
+            'title' => $title,
+            'content' => $content,
+        ];
 //
 
 //        $pushs =json_encode($push);
@@ -76,7 +75,8 @@ class HomeController extends Controller
 
             $transContent = json_encode($transContentArr);
             $push = app('PushManager')->driver('ge_tui');
-            $getuiResponse = $push->pushToSignal($deviceId, $transContent, $content, $title);
+            $getuiResponse = $push->pushOne($deviceId,$data);
+//            $getuiResponse = $push->pushToSignal($deviceId, $transContent, $content, $title);
 //            $getuiResponse = app('GeTuiService')->pushToSignal($deviceId, $transContent, $content, $title);
 
             $res = json_encode($getuiResponse);
