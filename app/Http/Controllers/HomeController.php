@@ -60,7 +60,7 @@ class HomeController extends Controller
             //        $deviceId = request()->get('device_id',$deviceId);
 //
         $data = [
-//            'type' => 9,
+            'type' => 9,
             'title' => $title,
             'content' => $content,
         ];
