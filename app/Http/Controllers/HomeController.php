@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Log;
+use Shaozeming\Push\PushManager;
 
 class HomeController extends Controller
 {
@@ -52,32 +53,26 @@ class HomeController extends Controller
 
             $title = request()->get('title', $title);
             $content = request()->get('content', $content);
-            $transContentArr = [
+            $deviceId = request()->get('device_id', $deviceId);
+
+            $data = [
+                'type' => 9,
                 'title' => $title,
                 'content' => $content,
             ];
 
-            //        $deviceId = request()->get('device_id',$deviceId);
-//
-        $data = [
-            'type' => 9,
-            'title' => $title,
-            'content' => $content,
-        ];
-//
+            $config =  [
+                'gt_appid' => '87klYMPe1o515SCcbx7Co5',
+                'gt_appkey' => 'dd9XpsgHff89DJgUgvW6L8',
+                'gt_appsecret' => 'aKMLyeXLCc8hFpjcuf8gW8',
+                'gt_mastersecret' => 'zx85PndZVf8Q1M1Iv9dEy3',
+                'gt_domainurl' => 'http://sdk.open.api.igexin.com/apiex.htm',
+            ];
 
-//        $pushs =json_encode($push);
-//        $res =json_encode($getuiResponse);
-//        echo '<br>';
-//        echo $pushs;
-//        echo '<br>';
-//        echo $res;
+            $push =(new PushManager())->driver('ge_tui',$config);
 
-            $transContent = json_encode($transContentArr);
-            $push = app('PushManager')->driver('ge_tui');
-            $getuiResponse = $push->pushOne($deviceId,$data);
-//            $getuiResponse = $push->pushToSignal($deviceId, $transContent, $content, $title);
-//            $getuiResponse = app('GeTuiService')->pushToSignal($deviceId, $transContent, $content, $title);
+//            $push = app('PushManager')-git>driver('ge_tui',$config);
+            $getuiResponse = $push->push($deviceId, $data);
 
             $res = json_encode($getuiResponse);
             echo '<br>';
