@@ -29,17 +29,12 @@ class WeixinController extends Controller
     public function index(Request $request)
     {
 
-
-       $key =  ApiService::getAccKey();
-
-       return $key;
-
         $data = $request->all();
         $echostr = $request->get('echostr');
         $signature = $request->get('signature');
         $timestamp = $request->get('timestamp');
         $nonce = $request->get('nonce');
-        $token = 'xZfV1M9Q9Vx1kjqD';
+        $token = config('wechat.token');
 
         $tmpArr = [$token,$timestamp, $nonce];
         sort($tmpArr, SORT_STRING);
@@ -88,5 +83,14 @@ class WeixinController extends Controller
         });
 
         return $app->server->serve();
+    }
+
+
+
+    public function getAccessToken(){
+
+        $key =  ApiService::getAccessToken();
+
+        return $key;
     }
 }

@@ -37,5 +37,6 @@ Route::group([
 
 
     Route::any('weixin', 'WeixinController@index'); //微信
+    Route::get('weixin/token', 'WeixinController@getAccessToken'); //微信
 });
 

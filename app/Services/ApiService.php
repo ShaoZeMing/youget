@@ -49,7 +49,7 @@ class ApiService
 //    }
 
 
-    public static function getAccKey()
+    public static function getAccessToken()
     {
 
         $appId = config('wechat.app_id');
