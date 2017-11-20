@@ -50,14 +50,11 @@ class WeixinController extends Controller
 
 
         if( $signature ==$tmpStr){
-            return response()->json([
-                'code' => 0,
-                'msg' => '调用成功',
-                'data' => $data,
-                'token' => 'xZfV1M9Q9Vx1kjqD',
-                'echostr' => $echostr,
-            ]);
+            Log::info('效验成功',['$signature'=> $signature ,'$tmpStr'=> $tmpStr]);
+            return $echostr;
+
         }else{
+            Log::info('效验失败',['$signature'=> $signature ,'$tmpStr'=> $tmpStr]);
 
             return response()->json([
                 'code' => 121,
