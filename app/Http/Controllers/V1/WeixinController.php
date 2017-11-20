@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\V1;
 
 use Illuminate\Support\Facades\Log;
 use Shaozeming\Push\PushManager;
+use App\Http\Controllers\Controller;
+
 
 class WeixinController extends Controller
 {
