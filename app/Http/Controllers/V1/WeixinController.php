@@ -45,7 +45,6 @@ class WeixinController extends Controller
             '$tmpArr' => $tmpArr,
             '$tmpStr' => $tmpStr,
             '$tmpStr1' => $tmpStr1,
-            '$tmpStr' => $tmpStr,
         ];
         Log::info('请求参数',$context);
 
@@ -55,7 +54,7 @@ class WeixinController extends Controller
                 'code' => 0,
                 'msg' => '调用成功',
                 'data' => $data,
-                'Token' => 'xZfV1M9Q9Vx1kjqD',
+                'token' => 'xZfV1M9Q9Vx1kjqD',
                 'echostr' => $echostr,
             ]);
         }else{
