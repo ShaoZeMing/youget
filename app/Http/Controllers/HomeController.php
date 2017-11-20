@@ -69,7 +69,6 @@ class HomeController extends Controller
                 'order_type_txt' => '保内',
             ];
 
-
             $push = app('PushManager')->driver();
             $getuiResponse = $push->push($deviceId, $data);
 
