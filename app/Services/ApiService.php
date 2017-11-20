@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use Illuminate\Contracts\Logging\Log;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 use Ixudra\Curl\Facades\Curl;
 //use Liyu\Signature\Facade\Signature;
 
