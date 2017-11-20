@@ -29,16 +29,45 @@ class WeixinController extends Controller
     {
 
         $data = $request->all();
+        $echostr = $request->get('echostr');
+        $signature = $request->get('signature');
+        $timestamp = $request->get('timestamp');
+        $nonce = $request->get('nonce');
+        $token = 'xZfV1M9Q9Vx1kjqD';
+
+        $tmpArr = [$token,$timestamp, $nonce];
+        sort($tmpArr, SORT_STRING);
+        $tmpStr1 = implode( $tmpArr );
+        $tmpStr = sha1( $tmpStr1 );
         $context = [
-          'f' => __METHOD__,
-          'data' => $data,
+            'f' => __METHOD__,
+            'data' => $data,
+            '$tmpArr' => $tmpArr,
+            '$tmpStr' => $tmpStr,
+            '$tmpStr1' => $tmpStr1,
+            '$tmpStr' => $tmpStr,
         ];
         Log::info('请求参数',$context);
-        return response()->json([
-            'code' => 0,
-            'msg' => '调用成功',
-            'data' => $data,
-        ]);
+
+
+        if( $signature ==$tmpStr){
+            return response()->json([
+                'code' => 0,
+                'msg' => '调用成功',
+                'data' => $data,
+                'Token' => 'xZfV1M9Q9Vx1kjqD',
+                'echostr' => $echostr,
+            ]);
+        }else{
+
+            return response()->json([
+                'code' => 121,
+                'msg' => '调用失败',
+                'data' => $data,
+                'Token' => 'xZfV1M9Q9Vx1kjqD',
+                'echostr' => $echostr,
+            ]);
+        }
 
     }
 
