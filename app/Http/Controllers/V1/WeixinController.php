@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\V1;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Shaozeming\Push\PushManager;
 use App\Http\Controllers\Controller;
@@ -24,13 +25,19 @@ class WeixinController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
 
+        $data = $request->all();
+        $context = [
+          'f' => __METHOD__,
+          'data' => $data,
+        ];
+        Log::info('请求参数',$context);
         return response()->json([
             'code' => 0,
             'msg' => '调用成功',
-            'data' => ['数据1','数据2'],
+            'data' => $data,
         ]);
 
     }
