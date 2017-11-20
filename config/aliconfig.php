@@ -69,8 +69,8 @@ rZpNAzCdd4NSj83UZRm3YOmC',
     ],// 用户不可用指定渠道支付当有多个渠道时用“,”分隔
 
     // 与业务相关参数
-    'notify_url'                => url('api/alipay/notify'),
-    'return_url'                => url('api/alipay/notify'),
+//    'notify_url'                => url('api/alipay/notify'),
+//    'return_url'                => url('api/alipay/notify'),
 
     'return_raw'                => false,// 在处理回调时，是否直接返回原始数据，默认为 true
 ];

@@ -178,10 +178,8 @@ return [
         App\Providers\RouteServiceProvider::class,
         Shaozeming\Push\PushServiceProvider::class,
         Ixudra\Curl\CurlServiceProvider::class,//curl
-        Overtrue\LaravelWeChat\ServiceProvider::class,
-
-
-    ],
+        Overtrue\LaravelWechat\ServiceProvider::class,
+        ],
 
     /*
     |--------------------------------------------------------------------------
