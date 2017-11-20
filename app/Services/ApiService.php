@@ -5,6 +5,7 @@ namespace App\Services;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Ixudra\Curl\Facades\Curl;
+
 //use Liyu\Signature\Facade\Signature;
 
 /**
@@ -51,18 +52,25 @@ class ApiService
     public static function getAccKey()
     {
 
-        $appId = config('wechat.app_id.');
-        $secret = config('wechat.secret.');
-        $token = config('wechat.token.');
-        $aesKey = config('wechat.aes_key.');
-        $url = rtrim(config('wechat.url.'),'/').'/cgi-bin/token?grant_type=client_credential&appid='.$appId.'&secret='.$secret;
+        $appId = config('wechat.app_id');
+        $secret = config('wechat.secret');
+        $token = config('wechat.token');
+        $aesKey = config('wechat.aes_key');
+        $url = rtrim(config('wechat.url'), '/') . '/cgi-bin/token';
+
+        $data = [
+            'grant_type' => 'client_credential',
+            'appid' => $appId,
+            'secret' => $secret,
+        ];
 
         $minutes = 110; //缓存分钟数
-        $accessToken = Cache::remember('access_token', $minutes, function () use($url) {
-            $response = Curl::to($url)->get();
-            Log::info('获取接口结果',[$response,__METHOD__]);
-            if(!isset($response->errcode)){
-                return $response -> access_token;
+        $accessToken = Cache::remember('access_token', $minutes, function () use ($url, $data) {
+            $response = Curl::to($url)->withData($data)->get();
+            Log::info('获取接口结果', [$response, __METHOD__]);
+            $response = is_object($response) ? $response : json_decode($response);
+            if (!isset($response->errcode)) {
+                return $response->access_token;
             }
         });
         return $accessToken;
