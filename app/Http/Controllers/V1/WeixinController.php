@@ -30,7 +30,7 @@ class WeixinController extends Controller
     public function index(Request $request)
     {
 
-//
+
 //        // 第三方发送消息给公众平台
 //        $appId = config('wechat.app_id');
 //        $secret = config('wechat.secret');
@@ -72,9 +72,6 @@ class WeixinController extends Controller
 //        }
 //
 //
-
-
-        Log::info('获取xml',[$GLOBALS]);
         Log::info('获取请求数据',[$request,__METHOD__]);
         $data = $request->all();
         $echostr = $request->get('echostr');
@@ -99,6 +96,7 @@ class WeixinController extends Controller
 
         if ($signature == $tmpStr) {
             Log::info('效验成功', ['$signature' => $signature, '$tmpStr' => $tmpStr]);
+            $msg = "";
             return $echostr;
 
         } else {
