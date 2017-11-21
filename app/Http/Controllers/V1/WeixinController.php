@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\V1;
 
+use App\Http\Controllers\Controller;
 use App\Services\ApiService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use Shaozeming\Push\PushManager;
-use App\Http\Controllers\Controller;
+use Ixudra\Curl\Facades\Curl;
 
 
 class WeixinController extends Controller
@@ -36,10 +36,10 @@ class WeixinController extends Controller
         $nonce = $request->get('nonce');
         $token = config('wechat.token');
 
-        $tmpArr = [$token,$timestamp, $nonce];
+        $tmpArr = [$token, $timestamp, $nonce];
         sort($tmpArr, SORT_STRING);
-        $tmpStr1 = implode( $tmpArr );
-        $tmpStr = sha1( $tmpStr1 );
+        $tmpStr1 = implode($tmpArr);
+        $tmpStr = sha1($tmpStr1);
         $context = [
             'f' => __METHOD__,
             'data' => $data,
@@ -47,15 +47,15 @@ class WeixinController extends Controller
             '$tmpStr' => $tmpStr,
             '$tmpStr1' => $tmpStr1,
         ];
-        Log::info('请求参数',$context);
+        Log::info('请求参数', $context);
 
 
-        if( $signature ==$tmpStr){
-            Log::info('效验成功',['$signature'=> $signature ,'$tmpStr'=> $tmpStr]);
+        if ($signature == $tmpStr) {
+            Log::info('效验成功', ['$signature' => $signature, '$tmpStr' => $tmpStr]);
             return $echostr;
 
-        }else{
-            Log::info('效验失败',['$signature'=> $signature ,'$tmpStr'=> $tmpStr]);
+        } else {
+            Log::info('效验失败', ['$signature' => $signature, '$tmpStr' => $tmpStr]);
 
             return response()->json([
                 'code' => 121,
@@ -78,7 +78,7 @@ class WeixinController extends Controller
         Log::info('request arrived.'); # 注意：Log 为 Laravel 组件，所以它记的日志去 Laravel 日志看，而不是 EasyWeChat 日志
 
         $app = app('wechat.official_account');
-        $app->server->push(function($message){
+        $app->server->push(function ($message) {
             return "欢迎关注 overtrue！";
         });
 
@@ -86,10 +86,70 @@ class WeixinController extends Controller
     }
 
 
+    public function createMenu(Request $request)
+    {
 
-    public function getAccessToken(){
+        $context = [
+            'request' => $request->all(),
+            'method' => __METHOD__,
+        ];
 
-        $key =  ApiService::getAccessToken();
+        try {
+//            if($request->method()=='GET'){
+//                return view('menu.create');
+//            }else{
+            $data = [
+                'button' => [
+                    [
+                        'name' => '我的博客',
+                        'sub_button' => [
+                            ['type' => 'view', 'name' => 'linux', 'url' => 'http://blog.4d4k.com/category/linux/'],
+                            ['type' => 'view', 'name' => 'PHP', 'url' => 'http://blog.4d4k.com/category/php/'],
+                            ['type' => 'view', 'name' => 'SQL', 'url' => 'http://blog.4d4k.com/category/sql/'],
+                        ]
+                    ],
+                    [
+                        'name' => '扫一扫',
+                        'sub_button' => [
+                            ['type' => 'scancode_waitmsg', 'name' => '扫码带提示', 'key' => 'sao_ma_ti_shi', 'sub_button' => []],
+                            ['type' => 'scancode_push', 'name' => '扫码推事件', 'key' => 'sao_ma_tui', 'sub_button' => []],
+                            ['type' => 'click', 'name' => '今日歌曲', 'key' => 'V1001_TODAY_MUSIC'],
+                        ]
+                    ],
+                    [
+                        'name' => '发图片',
+                        'sub_button' => [
+                            ['type' => 'pic_sysphoto', 'name' => '拍照发图', 'key' => 'pai_zhao', 'sub_button' => []],
+                            ['type' => 'pic_photo_or_album', 'name' => '拍照or相册', 'key' => 'pai_zhao_or_photos', 'sub_button' => []],
+                            ['type' => 'pic_weixin', 'name' => '微信相册发图', 'key' => 'wixin_photos'],
+                            ['type' => 'location_select', 'name' => '发送位置', 'key' => 'address'],
+                        ]
+                    ],
+                ],
+            ];
+            $data = json_encode($data);
+            dump($data);
+            $accessToken = ApiService::getAccessToken();
+            dump($accessToken);
+
+            $url = ' https://api.weixin.qq.com/cgi-bin/menu/create?access_token=' . $accessToken;
+            dump($url);
+            $response = Curl::to($url)->withData($data)->post();
+            Log::info('创建菜单结果', ['$response' => $response, '$data' => $data, '$url' => $url, $context]);
+            dd($response);
+            return $response ? $response : '失败';
+//            }
+        } catch (\Exception $e) {
+            Log::info($e, $context);
+        }
+    }
+
+
+    //获取
+    public function getAccessToken()
+    {
+
+        $key = ApiService::getAccessToken();
 
         return $key;
     }

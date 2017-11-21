@@ -37,6 +37,7 @@ Route::group([
 
 
     Route::any('weixin', 'WeixinController@index'); //微信
+    Route::any('weixin/menu/create', 'WeixinController@createMenu'); //创建微信菜单
     Route::get('weixin/token', 'WeixinController@getAccessToken'); //微信
 });
 

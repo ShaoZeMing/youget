@@ -16,10 +16,10 @@ use Ixudra\Curl\Facades\Curl;
  */
 class ApiService
 {
-    public static function request($url, $data, $appId, $method = 'get')
+    public static function request($url, $data, $method = 'get')
     {
-        $data['timestamp'] = time();
-        $data['app_id'] = $appId;
+//        $data['timestamp'] = time();
+//        $data['app_id'] = $appId;
 
 //        $secretKey = config('signature.sign_key.' . $appId);
 //        $sign = Signature::signer('hmac')
@@ -71,6 +71,8 @@ class ApiService
             $response = is_object($response) ? $response : json_decode($response);
             if (!isset($response->errcode)) {
                 return $response->access_token;
+            }else{
+                Log::error($response,[__METHOD__]);
             }
         });
         return $accessToken;
