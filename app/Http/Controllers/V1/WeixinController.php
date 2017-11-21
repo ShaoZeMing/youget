@@ -29,6 +29,7 @@ class WeixinController extends Controller
     public function index(Request $request)
     {
 
+        Log::info('获取请求数据',[$request,__METHOD__]);
         $data = $request->all();
         $echostr = $request->get('echostr');
         $signature = $request->get('signature');
@@ -86,6 +87,7 @@ class WeixinController extends Controller
     }
 
 
+    //创建微信自定义菜单
     public function createMenu(Request $request)
     {
 
@@ -94,55 +96,112 @@ class WeixinController extends Controller
             'method' => __METHOD__,
         ];
 
-        try {
-//            if($request->method()=='GET'){
-//                return view('menu.create');
-//            }else{
-            $data = [
-                'button' => [
-                    [
-                        'name' => '我的博客',
-                        'sub_button' => [
-                            ['type' => 'view', 'name' => 'linux', 'url' => 'http://blog.4d4k.com/category/linux/'],
-                            ['type' => 'view', 'name' => 'PHP', 'url' => 'http://blog.4d4k.com/category/php/'],
-                            ['type' => 'view', 'name' => 'SQL', 'url' => 'http://blog.4d4k.com/category/sql/'],
-                        ]
-                    ],
-                    [
-                        'name' => '扫一扫',
-                        'sub_button' => [
-                            ['type' => 'scancode_waitmsg', 'name' => '扫码带提示', 'key' => 'sao_ma_ti_shi', 'sub_button' => []],
-                            ['type' => 'scancode_push', 'name' => '扫码推事件', 'key' => 'sao_ma_tui', 'sub_button' => []],
-                            ['type' => 'click', 'name' => '今日歌曲', 'key' => 'V1001_TODAY_MUSIC'],
-                        ]
-                    ],
-                    [
-                        'name' => '发图片',
-                        'sub_button' => [
-                            ['type' => 'pic_sysphoto', 'name' => '拍照发图', 'key' => 'pai_zhao', 'sub_button' => []],
-                            ['type' => 'pic_photo_or_album', 'name' => '拍照or相册', 'key' => 'pai_zhao_or_photos', 'sub_button' => []],
-                            ['type' => 'pic_weixin', 'name' => '微信相册发图', 'key' => 'wixin_photos'],
-                            ['type' => 'location_select', 'name' => '发送位置', 'key' => 'address'],
-                        ]
-                    ],
-                ],
-            ];
-            $data = json_encode($data);
-            dump($data);
-            $accessToken = ApiService::getAccessToken();
-            dump($accessToken);
+        try {$jsonmenu = '{
+    "button": [
+        {
+            "name": "我的博客", 
+            "sub_button": [
+                {
+                    "type": "view", 
+                    "name": "linux", 
+                    "url": "http://blog.4d4k.com/category/linux/"
+                }, 
+                {
+                    "type": "view", 
+                    "name": "PHP", 
+                    "url": "http://blog.4d4k.com/category/php/"
+                }, 
+                {
+                    "type": "view", 
+                    "name": "SQL", 
+                    "url": "http://blog.4d4k.com/category/sql/"
+                }
+            ]
+        }, 
+        {
+            "name": "扫一扫", 
+            "sub_button": [
+                {
+                    "type": "scancode_waitmsg", 
+                    "name": "扫码带提示", 
+                    "key": "sao_ma_ti_shi", 
+                    "sub_button": [ ]
+                }, 
+                {
+                    "type": "scancode_push", 
+                    "name": "扫码推事件", 
+                    "key": "sao_ma_tui", 
+                    "sub_button": [ ]
+                }, 
+                {
+                    "type": "click", 
+                    "name": "今日歌曲", 
+                    "key": "V1001_TODAY_MUSIC"
+                }
+            ]
+        }, 
+        {
+            "name": "发图", 
+            "sub_button": [
+                {
+                    "type": "pic_sysphoto", 
+                    "name": "拍照发图", 
+                    "key": "pai_zhao", 
+                    "sub_button": [ ]
+                }, 
+                {
+                    "type": "pic_photo_or_album", 
+                    "name": "拍照or相册", 
+                    "key": "pai_zhao_or_photos", 
+                    "sub_button": [ ]
+                }, 
+                {
+                    "type": "pic_weixin", 
+                    "name": "微信相册发图", 
+                    "key": "wixin_photos"
+                }, 
+                {
+                    "type": "location_select", 
+                    "name": "发送位置", 
+                    "key": "address"
+                }
+            ]
+        }
+    ]
+}';
 
-            $url = ' https://api.weixin.qq.com/cgi-bin/menu/create?access_token=' . $accessToken;
-            dump($url);
-            $response = Curl::to($url)->withData($data)->post();
-            Log::info('创建菜单结果', ['$response' => $response, '$data' => $data, '$url' => $url, $context]);
-            dd($response);
-            return $response ? $response : '失败';
-//            }
+            $accessToken = ApiService::getAccessToken();
+
+            $url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=".$accessToken;
+            $result = $this->https_request($url, $jsonmenu);
+            var_dump($result);
+
+
         } catch (\Exception $e) {
             Log::info($e, $context);
         }
     }
+
+
+
+
+
+    //https
+    function https_request($url,$data = null){
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE);
+        if (!empty($data)){
+            curl_setopt($curl, CURLOPT_POST, 1);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+        }
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        $output = curl_exec($curl);
+        curl_close($curl);
+        return $output;
+    }
+
 
 
     //获取
@@ -153,4 +212,5 @@ class WeixinController extends Controller
 
         return $key;
     }
+
 }
