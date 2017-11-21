@@ -29,6 +29,7 @@ class WeixinController extends Controller
     public function index(Request $request)
     {
 
+        var_dump($GLOBALS["HTTP_RAW_POST_DATA"]);
         Log::info('获取请求数据',[$request,__METHOD__]);
         $data = $request->all();
         $echostr = $request->get('echostr');
