@@ -1,8 +1,5 @@
 <?php
 namespace App\Services\WeixinSdk;
-
-include_once "errorCode.php";
-
 /**
  * XMLParse class
  *

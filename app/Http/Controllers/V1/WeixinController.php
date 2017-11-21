@@ -30,6 +30,8 @@ class WeixinController extends Controller
     public function index(Request $request)
     {
 
+        Log::info('获取请求数据',[$request,__METHOD__]);
+
         //1、获取到微信推送过来的POST数据（XML格式）
         //$postArr = $GLOBALS['HTTP_RAW_POST_DATA'];
         $postArr = file_get_contents("php://input");
@@ -39,6 +41,7 @@ class WeixinController extends Controller
         //2、接受了就开始处理了,这个函数把xml转换为一个对象
         $postObj = simplexml_load_string($postArr);
 
+        Log::info('获取xml',[$postArr,$postObj]);
         if(strtolower($postObj->MsgType)=='event'){
 //            if(strtolower($postObj->Event)=='subscribe'){
                 //回复用户消息
@@ -102,44 +105,43 @@ class WeixinController extends Controller
         }
 
 
-        Log::info('获取请求数据',[$request,__METHOD__]);
-        $data = $request->all();
-        $echostr = $request->get('echostr');
-        $signature = $request->get('signature');
-        $timestamp = $request->get('timestamp');
-        $nonce = $request->get('nonce');
-        $token = config('wechat.token');
-
-        $tmpArr = [$token, $timestamp, $nonce];
-        sort($tmpArr, SORT_STRING);
-        $tmpStr1 = implode($tmpArr);
-        $tmpStr = sha1($tmpStr1);
-        $context = [
-            'f' => __METHOD__,
-            'data' => $data,
-            '$tmpArr' => $tmpArr,
-            '$tmpStr' => $tmpStr,
-            '$tmpStr1' => $tmpStr1,
-        ];
-        Log::info('请求参数', $context);
-
-
-        if ($signature == $tmpStr) {
-            Log::info('效验成功', ['$signature' => $signature, '$tmpStr' => $tmpStr]);
-            $msg = "";
-            return $echostr;
-
-        } else {
-            Log::info('效验失败', ['$signature' => $signature, '$tmpStr' => $tmpStr]);
-
-            return response()->json([
-                'code' => 121,
-                'msg' => '调用失败',
-                'data' => $data,
-                'Token' => 'xZfV1M9Q9Vx1kjqD',
-                'echostr' => $echostr,
-            ]);
-        }
+//        $data = $request->all();
+//        $echostr = $request->get('echostr');
+//        $signature = $request->get('signature');
+//        $timestamp = $request->get('timestamp');
+//        $nonce = $request->get('nonce');
+//        $token = config('wechat.token');
+//
+//        $tmpArr = [$token, $timestamp, $nonce];
+//        sort($tmpArr, SORT_STRING);
+//        $tmpStr1 = implode($tmpArr);
+//        $tmpStr = sha1($tmpStr1);
+//        $context = [
+//            'f' => __METHOD__,
+//            'data' => $data,
+//            '$tmpArr' => $tmpArr,
+//            '$tmpStr' => $tmpStr,
+//            '$tmpStr1' => $tmpStr1,
+//        ];
+//        Log::info('请求参数', $context);
+//
+//
+//        if ($signature == $tmpStr) {
+//            Log::info('效验成功', ['$signature' => $signature, '$tmpStr' => $tmpStr]);
+//            $msg = "";
+//            return $echostr;
+//
+//        } else {
+//            Log::info('效验失败', ['$signature' => $signature, '$tmpStr' => $tmpStr]);
+//
+//            return response()->json([
+//                'code' => 121,
+//                'msg' => '调用失败',
+//                'data' => $data,
+//                'Token' => 'xZfV1M9Q9Vx1kjqD',
+//                'echostr' => $echostr,
+//            ]);
+//        }
 
     }
 
