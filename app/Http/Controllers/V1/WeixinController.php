@@ -44,11 +44,21 @@ class WeixinController extends Controller
         $fromuser	= $postObj->ToUserName;
         $time 		= time();
         if(strtolower($postObj->MsgType)=='event'){
-//            if(strtolower($postObj->Event)=='subscribe'){
+            if(strtolower($postObj->Event)=='subscribe'){
                 //回复用户消息
-                $content	= '你进行了点击操作';
+                $content	= '感谢关注';
                 $MsgType 	= 'text';
-//            }
+            }
+            switch ($postObj->EventKey){
+                case 'sao_ma_ti_shi':
+                    $content	= '扫码成功！';
+                    $MsgType 	= 'text';
+                    break;
+                case 'V1001_TODAY_MUSIC':
+                    $content	= '今天歌曲是，《老子明天不上班》';
+                    $MsgType 	= 'text';
+                    break;
+            }
         }elseif (strtolower($postObj->MsgType)=='location'){
 //            Location_X>39.999671</Location_X>\n<Location_Y>116.338532</Location_Y>\n<Scale>15</Scale>\
             $locationX = $postObj->Location_X;
