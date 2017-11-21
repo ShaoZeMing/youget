@@ -35,74 +35,53 @@ class WeixinController extends Controller
         //1、获取到微信推送过来的POST数据（XML格式）
         //$postArr = $GLOBALS['HTTP_RAW_POST_DATA'];
         $postArr = file_get_contents("php://input");
-
         //file_put_contents('b.xml', $postArr);
-
         //2、接受了就开始处理了,这个函数把xml转换为一个对象
         $postObj = simplexml_load_string($postArr);
-
-        Log::info('获取xml',[$postArr,$postObj]);
+        Log::info('获取xml',[$postArr]);
+        Log::info('msgType',[$postObj->MsgType]);
+        $touser 	= $postObj->FromUserName;
+        $fromuser	= $postObj->ToUserName;
+        $time 		= time();
         if(strtolower($postObj->MsgType)=='event'){
 //            if(strtolower($postObj->Event)=='subscribe'){
                 //回复用户消息
-                $touser 	= $postObj->FromUserName;
-                $fromuser	= $postObj->ToUserName;
-                $time 		= time();
-                $content	= '欢迎关注';
+                $content	= '你进行了点击操作';
                 $MsgType 	= 'text';
-                $template	= "<xml>
+//            }
+        }elseif (strtolower($postObj->MsgType)=='location'){
+//            Location_X>39.999671</Location_X>\n<Location_Y>116.338532</Location_Y>\n<Scale>15</Scale>\
+            $locationX = $postObj->Location_X;
+            $locationY	= $postObj->Location_Y;
+            $address	= $postObj->Label;
+            $content	= "你当前的地址是：【{$address}】，经度：【{$locationX}】，纬度：【{$locationY}】";
+            $MsgType 	= 'text';
+        }else{
+            $content	= "我不知道你说的什么，你的xml是{$postArr}";
+            $MsgType 	= 'text';
+        }
+
+        $template	= "<xml>
 							   <ToUserName><![CDATA[%s]]></ToUserName>
 							   <FromUserName><![CDATA[%s]]></FromUserName>
 							   <CreateTime>%s</CreateTime>
 							   <MsgType><![CDATA[%s]]></MsgType>
 							   <Content><![CDATA[%s]]></Content>
 							   </xml>";
-                $template 	= trim($template);
-                $info		= sprintf($template,$touser,$fromuser,$time,$MsgType,$content);
-                return $info;
-//            }
-        }
+        $template 	= trim($template);
+        $info		= sprintf($template,$touser,$fromuser,$time,$MsgType,$content);
+        return $info;
 
 
-        // 第三方发送消息给公众平台
-        $appId = config('wechat.app_id');
-        $secret = config('wechat.secret');
-        $token = config('wechat.token');
-        $encodingAesKey = config('wechat.aes_key');
-        $timeStamp = time();
-        $nonce = "ssssssssssssss";
-        $text = "<xml><ToUserName><![CDATA[oia2Tj我是中文jewbmiOUlr6X-1crbLOvLw]]></ToUserName><FromUserName><![CDATA[gh_7f083739789a]]></FromUserName><CreateTime>1407743423</CreateTime><MsgType><![CDATA[video]]></MsgType><Video><MediaId><![CDATA[eYJ1MbwPRJtOvIEabaxHs7TX2D-HV71s79GUxqdUkjm6Gs2Ed1KF3ulAOA9H1xG0]]></MediaId><Title><![CDATA[testCallBackReplyVideo]]></Title><Description><![CDATA[testCallBackReplyVideo]]></Description></Video></xml>";
 
-
-        $pc = new WXBizMsgCrypt($token, $encodingAesKey, $appId);
-        var_dump($pc);
-        $encryptMsg = '';
-        $errCode = $pc->encryptMsg($text, $timeStamp, $nonce, $encryptMsg);
-        if ($errCode == 0) {
-            print("加密后: " . $encryptMsg . "\n");
-        } else {
-            print($errCode . "\n");
-        }
-
-//        dd($errCode);
-        $xml_tree = new \DOMDocument();
-        $xml_tree->loadXML($encryptMsg);
-        $array_e = $xml_tree->getElementsByTagName('Encrypt');
-        $array_s = $xml_tree->getElementsByTagName('MsgSignature');
-        $encrypt = $array_e->item(0)->nodeValue;
-        $msg_sign = $array_s->item(0)->nodeValue;
-
-        $format = "<xml><ToUserName><![CDATA[toUser]]></ToUserName><Encrypt><![CDATA[%s]]></Encrypt></xml>";
-        $from_xml = sprintf($format, $encrypt);
-
-// 第三方收到公众号平台发送的消息
-        $msg = '';
-        $errCode = $pc->decryptMsg($msg_sign, $timeStamp, $nonce, $from_xml, $msg);
-        if ($errCode == 0) {
-            print("解密后: " . $msg . "\n");
-        } else {
-            print($errCode . "\n");
-        }
+//// 第三方收到公众号平台发送的消息
+//        $msg = '';
+//        $errCode = $pc->decryptMsg($msg_sign, $timeStamp, $nonce, $from_xml, $msg);
+//        if ($errCode == 0) {
+//            print("解密后: " . $msg . "\n");
+//        } else {
+//            print($errCode . "\n");
+//        }
 
 
 //        $data = $request->all();

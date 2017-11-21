@@ -1,7 +1,6 @@
 <?php
 namespace App\Services\WeixinSdk;
 use Illuminate\Support\Facades\Log;
-
 /**
  * Prpcrypt class
  *
