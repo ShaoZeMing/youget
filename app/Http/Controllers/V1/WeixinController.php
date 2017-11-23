@@ -172,11 +172,11 @@ class WeixinController extends Controller
     {
         Log::info('获取请求数据', [$request, __METHOD__]);
 
-        $app = app('wechat');
+        $app = app('wechat')->server;
         $msgArr = $app->getMessage();
         Log::info('请求message',$msgArr);
 
-        $app->server->setMessageHandler(function ($message) {
+        $app->setMessageHandler(function ($message) {
           switch ($message->MsgType) {
         case 'event':
             return '收到事件消息';
@@ -206,7 +206,7 @@ class WeixinController extends Controller
     }
         });
 
-        return $app->server->serve();
+        return $app->serve();
     }
 
 
