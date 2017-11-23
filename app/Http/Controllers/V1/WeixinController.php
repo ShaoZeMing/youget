@@ -123,43 +123,43 @@ class WeixinController extends Controller
         }
 
 
-//        $data = $request->all();
-//        $echostr = $request->get('echostr');
-//        $signature = $request->get('signature');
-//        $timestamp = $request->get('timestamp');
-//        $nonce = $request->get('nonce');
-//        $token = config('wechat.token');
-//
-//        $tmpArr = [$token, $timestamp, $nonce];
-//        sort($tmpArr, SORT_STRING);
-//        $tmpStr1 = implode($tmpArr);
-//        $tmpStr = sha1($tmpStr1);
-//        $context = [
-//            'f' => __METHOD__,
-//            'data' => $data,
-//            '$tmpArr' => $tmpArr,
-//            '$tmpStr' => $tmpStr,
-//            '$tmpStr1' => $tmpStr1,
-//        ];
-//        Log::info('请求参数', $context);
-//
-//
-//        if ($signature == $tmpStr) {
-//            Log::info('效验成功', ['$signature' => $signature, '$tmpStr' => $tmpStr]);
-//            $msg = "";
-//            return $echostr;
-//
-//        } else {
-//            Log::info('效验失败', ['$signature' => $signature, '$tmpStr' => $tmpStr]);
-//
-//            return response()->json([
-//                'code' => 121,
-//                'msg' => '调用失败',
-//                'data' => $data,
-//                'Token' => 'xZfV1M9Q9Vx1kjqD',
-//                'echostr' => $echostr,
-//            ]);
-//        }
+        $data = $request->all();
+        $echostr = $request->get('echostr');
+        $signature = $request->get('signature');
+        $timestamp = $request->get('timestamp');
+        $nonce = $request->get('nonce');
+        $token = config('wechat.token');
+
+        $tmpArr = [$token, $timestamp, $nonce];
+        sort($tmpArr, SORT_STRING);
+        $tmpStr1 = implode($tmpArr);
+        $tmpStr = sha1($tmpStr1);
+        $context = [
+            'f' => __METHOD__,
+            'data' => $data,
+            '$tmpArr' => $tmpArr,
+            '$tmpStr' => $tmpStr,
+            '$tmpStr1' => $tmpStr1,
+        ];
+        Log::info('请求参数', $context);
+
+
+        if ($signature == $tmpStr) {
+            Log::info('效验成功', ['$signature' => $signature, '$tmpStr' => $tmpStr]);
+            $msg = "";
+            return $echostr;
+
+        } else {
+            Log::info('效验失败', ['$signature' => $signature, '$tmpStr' => $tmpStr]);
+
+            return response()->json([
+                'code' => 121,
+                'msg' => '调用失败',
+                'data' => $data,
+                'Token' => 'xZfV1M9Q9Vx1kjqD',
+                'echostr' => $echostr,
+            ]);
+        }
 
     }
 
