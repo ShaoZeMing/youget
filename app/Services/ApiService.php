@@ -64,7 +64,7 @@ class ApiService
             'secret' => $secret,
         ];
 
-        $minutes = 110; //缓存分钟数
+        $minutes = 1; //缓存分钟数
         $accessToken = Cache::remember('access_token', $minutes, function () use ($url, $data) {
             $response = Curl::to($url)->withData($data)->get();
             Log::info('获取接口结果', [$response, __METHOD__]);
