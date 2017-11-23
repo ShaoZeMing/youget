@@ -27,8 +27,9 @@ class WeixinController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function server(Request $request)
     {
+
 
         Log::info('获取请求数据',[$request,__METHOD__]);
 
@@ -126,17 +127,6 @@ class WeixinController extends Controller
 
 
 
-
-//// 第三方收到公众号平台发送的消息
-//        $msg = '';
-//        $errCode = $pc->decryptMsg($msg_sign, $timeStamp, $nonce, $from_xml, $msg);
-//        if ($errCode == 0) {
-//            print("解密后: " . $msg . "\n");
-//        } else {
-//            print($errCode . "\n");
-//        }
-
-
 //        $data = $request->all();
 //        $echostr = $request->get('echostr');
 //        $signature = $request->get('signature');
@@ -182,9 +172,9 @@ class WeixinController extends Controller
      *
      * @return string
      */
-    public function serve()
+    public function index(Request $request)
     {
-        Log::info('request arrived.'); # 注意：Log 为 Laravel 组件，所以它记的日志去 Laravel 日志看，而不是 EasyWeChat 日志
+        Log::info('获取请求数据',[$request,__METHOD__]);
 
         $app = app('wechat.official_account');
         $app->server->push(function ($message) {
