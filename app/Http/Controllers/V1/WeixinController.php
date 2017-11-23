@@ -4,10 +4,8 @@ namespace App\Http\Controllers\V1;
 
 use App\Http\Controllers\Controller;
 use App\Services\ApiService;
-use App\Services\WeixinSdk\WXBizMsgCrypt;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use Ixudra\Curl\Facades\Curl;
 
 
 class WeixinController extends Controller
@@ -31,7 +29,7 @@ class WeixinController extends Controller
     {
 
 
-        Log::info('获取请求数据',[$request,__METHOD__]);
+        Log::info('获取请求数据', [$request, __METHOD__]);
 
         //1、获取到微信推送过来的POST数据（XML格式）
         //$postArr = $GLOBALS['HTTP_RAW_POST_DATA'];
@@ -39,76 +37,76 @@ class WeixinController extends Controller
         //file_put_contents('b.xml', $postArr);
         //2、接受了就开始处理了,这个函数把xml转换为一个对象
         $postObj = simplexml_load_string($postArr);
-        Log::info('获取xml',[$postArr]);
-        Log::info('msgType',[$postObj->MsgType]);
-        $touser 	= $postObj->FromUserName;
-        $fromuser	= $postObj->ToUserName;
-        $time 		= time();
-        $MsgType='';
-        $content='';
-        if(strtolower($postObj->MsgType)=='event'){
-            if(strtolower($postObj->Event)=='subscribe'){
+        Log::info('获取xml', [$postArr]);
+        Log::info('msgType', [$postObj->MsgType]);
+        $touser = $postObj->FromUserName;
+        $fromuser = $postObj->ToUserName;
+        $time = time();
+        $MsgType = '';
+        $content = '';
+        if (strtolower($postObj->MsgType) == 'event') {
+            if (strtolower($postObj->Event) == 'subscribe') {
                 //回复用户消息
-                $content	= '感谢关注';
-                $MsgType 	= 'text';
+                $content = '感谢关注';
+                $MsgType = 'text';
             }
-            switch ($postObj->EventKey){
+            switch ($postObj->EventKey) {
                 case 'sao_ma_ti_shi':
-                    $content	= '扫码成功！';
-                    $MsgType 	= 'text';
+                    $content = '扫码成功！';
+                    $MsgType = 'text';
                     break;
                 case 'V1001_TODAY_MUSIC':
-                    $content	= '今天歌曲是，《老子明天不上班》';
-                    $MsgType 	= 'text';
+                    $content = '今天歌曲是，《老子明天不上班》';
+                    $MsgType = 'text';
                     break;
             }
-            $template	= "<xml>
+            $template = "<xml>
 							   <ToUserName><![CDATA[%s]]></ToUserName>
 							   <FromUserName><![CDATA[%s]]></FromUserName>
 							   <CreateTime>%s</CreateTime>
 							   <MsgType><![CDATA[%s]]></MsgType>
 							   <Content><![CDATA[%s]]></Content>
 							   </xml>";
-            $template 	= trim($template);
-            $info		= sprintf($template,$touser,$fromuser,$time,$MsgType,$content);
+            $template = trim($template);
+            $info = sprintf($template, $touser, $fromuser, $time, $MsgType, $content);
             return $info;
-        }elseif (strtolower($postObj->MsgType)=='location'){
+        } elseif (strtolower($postObj->MsgType) == 'location') {
             $locationX = $postObj->Location_X;
-            $locationY	= $postObj->Location_Y;
-            $address	= $postObj->Label;
-            $content	= "你当前的地址是：【{$address}】，经度：【{$locationX}】，纬度：【{$locationY}】";
-            $MsgType 	= 'text';
-            $template	= "<xml>
+            $locationY = $postObj->Location_Y;
+            $address = $postObj->Label;
+            $content = "你当前的地址是：【{$address}】，经度：【{$locationX}】，纬度：【{$locationY}】";
+            $MsgType = 'text';
+            $template = "<xml>
 							   <ToUserName><![CDATA[%s]]></ToUserName>
 							   <FromUserName><![CDATA[%s]]></FromUserName>
 							   <CreateTime>%s</CreateTime>
 							   <MsgType><![CDATA[%s]]></MsgType>
 							   <Content><![CDATA[%s]]></Content>
 							   </xml>";
-            $template 	= trim($template);
-            $info		= sprintf($template,$touser,$fromuser,$time,$MsgType,$content);
+            $template = trim($template);
+            $info = sprintf($template, $touser, $fromuser, $time, $MsgType, $content);
             return $info;
-        }elseif (strtolower($postObj->MsgType)=='text'){
-            $address	= $postObj->Content;
-            $content	= "你说什么？我看不见你说的：【{$address}】";
-            $MsgType 	= 'text';
-            if($address=='来张图片'){
+        } elseif (strtolower($postObj->MsgType) == 'text') {
+            $address = $postObj->Content;
+            $content = "你说什么？我看不见你说的：【{$address}】";
+            $MsgType = 'text';
+            if ($address == '来张图片') {
                 $content = '木得图片给你，好好学习才是王道';
             }
-            $template	= "<xml>
+            $template = "<xml>
 							   <ToUserName><![CDATA[%s]]></ToUserName>
 							   <FromUserName><![CDATA[%s]]></FromUserName>
 							   <CreateTime>%s</CreateTime>
 							   <MsgType><![CDATA[%s]]></MsgType>
 							   <Content><![CDATA[%s]]></Content>
 							   </xml>";
-            $template 	= trim($template);
-            $info		= sprintf($template,$touser,$fromuser,$time,$MsgType,$content);
+            $template = trim($template);
+            $info = sprintf($template, $touser, $fromuser, $time, $MsgType, $content);
             return $info;
-        }elseif (strtolower($postObj->MsgType)=='image'){
-            $MediaId	= $postObj->MediaId;
-            $MsgType 	= 'text';
-            $template	= "<xml>
+        } elseif (strtolower($postObj->MsgType) == 'image') {
+            $MediaId = $postObj->MediaId;
+            $MsgType = 'text';
+            $template = "<xml>
                             <ToUserName><![CDATA[%s]]></ToUserName>
                             <FromUserName><![CDATA[%s]]></FromUserName>
                             <CreateTime>%s</CreateTime>
@@ -117,14 +115,12 @@ class WeixinController extends Controller
                             <MediaId><![CDATA[%s]]></MediaId>
                             </Image>
                             </xml>";
-            $template 	= trim($template);
-            $info		= sprintf($template,$touser,$fromuser,$time,$MsgType,$MediaId);
+            $template = trim($template);
+            $info = sprintf($template, $touser, $fromuser, $time, $MsgType, $MediaId);
             return $info;
-        }else{
+        } else {
             return $postArr;
         }
-
-
 
 
 //        $data = $request->all();
@@ -174,11 +170,14 @@ class WeixinController extends Controller
      */
     public function index(Request $request)
     {
-        Log::info('获取请求数据',[$request,__METHOD__]);
+        Log::info('获取请求数据', [$request, __METHOD__]);
 
-        $app = app('wechat.official_account');
-        $app->server->push(function ($message) {
-            return "欢迎关注 overtrue！";
+        $app = app('wechat');
+        $app->server->setMessageHandler(function ($message) {
+            Log::info('请求message',[$message]);
+//             $message->FromUserName; // 用户的 openid
+//             $message->MsgType; // 消息类型：event, text....
+            return "您好！欢迎关注我!";
         });
 
         return $app->server->serve();
@@ -194,7 +193,8 @@ class WeixinController extends Controller
             'method' => __METHOD__,
         ];
 
-        try {$jsonmenu = '{
+        try {
+            $jsonmenu = '{
     "button": [
         {
             "name": "我的博客", 
@@ -270,7 +270,7 @@ class WeixinController extends Controller
 
             $accessToken = ApiService::getAccessToken();
 
-            $url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=".$accessToken;
+            $url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=" . $accessToken;
             $result = $this->https_request($url, $jsonmenu);
             var_dump($result);
 
@@ -281,16 +281,14 @@ class WeixinController extends Controller
     }
 
 
-
-
-
     //https
-    function https_request($url,$data = null){
+    function https_request($url, $data = null)
+    {
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE);
-        if (!empty($data)){
+        if (!empty($data)) {
             curl_setopt($curl, CURLOPT_POST, 1);
             curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
         }
@@ -299,7 +297,6 @@ class WeixinController extends Controller
         curl_close($curl);
         return $output;
     }
-
 
 
     //获取
@@ -317,7 +314,7 @@ class WeixinController extends Controller
     {
 
         $key = ApiService::getAccessToken();
-        $url = "https://api.weixin.qq.com/cgi-bin/template/api_set_industry?access_token=".$key;
+        $url = "https://api.weixin.qq.com/cgi-bin/template/api_set_industry?access_token=" . $key;
         $data = '  {
           "industry_id1":"1",
           "industry_id2":"2"
@@ -325,11 +322,12 @@ class WeixinController extends Controller
         $result = $this->https_request($url, $data);
         var_dump($result);
     }
+
     //查看指定行业
     public function getIndustry()
     {
         $key = ApiService::getAccessToken();
-        $url = "https://api.weixin.qq.com/cgi-bin/template/get_industry?access_token=".$key;
+        $url = "https://api.weixin.qq.com/cgi-bin/template/get_industry?access_token=" . $key;
         $result = $this->https_request($url);
         var_dump($result);
     }
