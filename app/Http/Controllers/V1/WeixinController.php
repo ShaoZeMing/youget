@@ -321,4 +321,27 @@ class WeixinController extends Controller
         return $key;
     }
 
+
+    //指定行业
+    public function setIndustry()
+    {
+
+        $key = ApiService::getAccessToken();
+        $url = "https://api.weixin.qq.com/cgi-bin/template/api_set_industry?access_token=".$key;
+        $data = '  {
+          "industry_id1":"1",
+          "industry_id2":"2"
+       }';
+        $result = $this->https_request($url, $data);
+        var_dump($result);
+    }
+    //查看指定行业
+    public function getIndustry()
+    {
+        $key = ApiService::getAccessToken();
+        $url = "https://api.weixin.qq.com/cgi-bin/template/get_industry?access_token=".$key;
+        $result = $this->https_request($url);
+        var_dump($result);
+    }
+
 }
