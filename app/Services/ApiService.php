@@ -65,7 +65,7 @@ class ApiService
         ];
 
         $minutes = 1; //缓存分钟数
-        $accessToken = Cache::remember('access_token', $minutes, function () use ($url, $data) {
+//        $accessToken = Cache::remember('access_token', $minutes, function () use ($url, $data) {
             $response = Curl::to($url)->withData($data)->get();
             Log::info('获取接口结果', [$response, __METHOD__]);
             $response = is_object($response) ? $response : json_decode($response);
@@ -74,7 +74,7 @@ class ApiService
             }else{
                 Log::error($response,[__METHOD__]);
             }
-        });
-        return $accessToken;
+//        });
+//        return $accessToken;
     }
 }
