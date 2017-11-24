@@ -39,88 +39,88 @@ class WeixinController extends Controller
         $postObj = simplexml_load_string($postArr);
         Log::info('获取xml', [$postArr]);
         Log::info('msgType', [$postObj->MsgType]);
-        $touser = $postObj->FromUserName;
-        $fromuser = $postObj->ToUserName;
-        $time = time();
-        $MsgType = '';
-        $content = '';
-        if (strtolower($postObj->MsgType) == 'event') {
-            if (strtolower($postObj->Event) == 'subscribe') {
-                //回复用户消息
-                $content = '感谢关注';
-                $MsgType = 'text';
-            }
-            switch ($postObj->EventKey) {
-                case 'sao_ma_ti_shi':
-                    $content = '扫码成功！';
-                    $MsgType = 'text';
-                    break;
-                case 'V1001_TODAY_MUSIC':
-                    $content = '今天歌曲是，《老子明天不上班》';
-                    $MsgType = 'text';
-                    break;
-            }
-            $template = "<xml>
-							   <ToUserName><![CDATA[%s]]></ToUserName>
-							   <FromUserName><![CDATA[%s]]></FromUserName>
-							   <CreateTime>%s</CreateTime>
-							   <MsgType><![CDATA[%s]]></MsgType>
-							   <Content><![CDATA[%s]]></Content>
-							   </xml>";
-            $template = trim($template);
-            $info = sprintf($template, $touser, $fromuser, $time, $MsgType, $content);
-            return $info;
-        } elseif (strtolower($postObj->MsgType) == 'location') {
-            $locationX = $postObj->Location_X;
-            $locationY = $postObj->Location_Y;
-            $address = $postObj->Label;
-            $content = "你当前的地址是：【{$address}】，经度：【{$locationX}】，纬度：【{$locationY}】";
-            $MsgType = 'text';
-            $template = "<xml>
-							   <ToUserName><![CDATA[%s]]></ToUserName>
-							   <FromUserName><![CDATA[%s]]></FromUserName>
-							   <CreateTime>%s</CreateTime>
-							   <MsgType><![CDATA[%s]]></MsgType>
-							   <Content><![CDATA[%s]]></Content>
-							   </xml>";
-            $template = trim($template);
-            $info = sprintf($template, $touser, $fromuser, $time, $MsgType, $content);
-            return $info;
-        } elseif (strtolower($postObj->MsgType) == 'text') {
-            $address = $postObj->Content;
-            $content = "你说什么？我看不见你说的：【{$address}】";
-            $MsgType = 'text';
-            if ($address == '来张图片') {
-                $content = '木得图片给你，好好学习才是王道';
-            }
-            $template = "<xml>
-							   <ToUserName><![CDATA[%s]]></ToUserName>
-							   <FromUserName><![CDATA[%s]]></FromUserName>
-							   <CreateTime>%s</CreateTime>
-							   <MsgType><![CDATA[%s]]></MsgType>
-							   <Content><![CDATA[%s]]></Content>
-							   </xml>";
-            $template = trim($template);
-            $info = sprintf($template, $touser, $fromuser, $time, $MsgType, $content);
-            return $info;
-        } elseif (strtolower($postObj->MsgType) == 'image') {
-            $MediaId = $postObj->MediaId;
-            $MsgType = 'text';
-            $template = "<xml>
-                            <ToUserName><![CDATA[%s]]></ToUserName>
-                            <FromUserName><![CDATA[%s]]></FromUserName>
-                            <CreateTime>%s</CreateTime>
-                            <MsgType><![CDATA[%s]]></MsgType>
-                            <Image>
-                            <MediaId><![CDATA[%s]]></MediaId>
-                            </Image>
-                            </xml>";
-            $template = trim($template);
-            $info = sprintf($template, $touser, $fromuser, $time, $MsgType, $MediaId);
-            return $info;
-        } else {
-            return $postArr;
-        }
+//        $touser = $postObj->FromUserName;
+//        $fromuser = $postObj->ToUserName;
+//        $time = time();
+//        $MsgType = '';
+//        $content = '';
+//        if (strtolower($postObj->MsgType) == 'event') {
+//            if (strtolower($postObj->Event) == 'subscribe') {
+//                //回复用户消息
+//                $content = '感谢关注';
+//                $MsgType = 'text';
+//            }
+//            switch ($postObj->EventKey) {
+//                case 'sao_ma_ti_shi':
+//                    $content = '扫码成功！';
+//                    $MsgType = 'text';
+//                    break;
+//                case 'V1001_TODAY_MUSIC':
+//                    $content = '今天歌曲是，《老子明天不上班》';
+//                    $MsgType = 'text';
+//                    break;
+//            }
+//            $template = "<xml>
+//							   <ToUserName><![CDATA[%s]]></ToUserName>
+//							   <FromUserName><![CDATA[%s]]></FromUserName>
+//							   <CreateTime>%s</CreateTime>
+//							   <MsgType><![CDATA[%s]]></MsgType>
+//							   <Content><![CDATA[%s]]></Content>
+//							   </xml>";
+//            $template = trim($template);
+//            $info = sprintf($template, $touser, $fromuser, $time, $MsgType, $content);
+//            return $info;
+//        } elseif (strtolower($postObj->MsgType) == 'location') {
+//            $locationX = $postObj->Location_X;
+//            $locationY = $postObj->Location_Y;
+//            $address = $postObj->Label;
+//            $content = "你当前的地址是：【{$address}】，经度：【{$locationX}】，纬度：【{$locationY}】";
+//            $MsgType = 'text';
+//            $template = "<xml>
+//							   <ToUserName><![CDATA[%s]]></ToUserName>
+//							   <FromUserName><![CDATA[%s]]></FromUserName>
+//							   <CreateTime>%s</CreateTime>
+//							   <MsgType><![CDATA[%s]]></MsgType>
+//							   <Content><![CDATA[%s]]></Content>
+//							   </xml>";
+//            $template = trim($template);
+//            $info = sprintf($template, $touser, $fromuser, $time, $MsgType, $content);
+//            return $info;
+//        } elseif (strtolower($postObj->MsgType) == 'text') {
+//            $address = $postObj->Content;
+//            $content = "你说什么？我看不见你说的：【{$address}】";
+//            $MsgType = 'text';
+//            if ($address == '来张图片') {
+//                $content = '木得图片给你，好好学习才是王道';
+//            }
+//            $template = "<xml>
+//							   <ToUserName><![CDATA[%s]]></ToUserName>
+//							   <FromUserName><![CDATA[%s]]></FromUserName>
+//							   <CreateTime>%s</CreateTime>
+//							   <MsgType><![CDATA[%s]]></MsgType>
+//							   <Content><![CDATA[%s]]></Content>
+//							   </xml>";
+//            $template = trim($template);
+//            $info = sprintf($template, $touser, $fromuser, $time, $MsgType, $content);
+//            return $info;
+//        } elseif (strtolower($postObj->MsgType) == 'image') {
+//            $MediaId = $postObj->MediaId;
+//            $MsgType = 'text';
+//            $template = "<xml>
+//                            <ToUserName><![CDATA[%s]]></ToUserName>
+//                            <FromUserName><![CDATA[%s]]></FromUserName>
+//                            <CreateTime>%s</CreateTime>
+//                            <MsgType><![CDATA[%s]]></MsgType>
+//                            <Image>
+//                            <MediaId><![CDATA[%s]]></MediaId>
+//                            </Image>
+//                            </xml>";
+//            $template = trim($template);
+//            $info = sprintf($template, $touser, $fromuser, $time, $MsgType, $MediaId);
+//            return $info;
+//        } else {
+//            return $postArr;
+//        }
 
 
         $data = $request->all();
