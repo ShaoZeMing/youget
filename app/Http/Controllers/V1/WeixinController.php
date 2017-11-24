@@ -195,18 +195,18 @@ class WeixinController extends Controller
         if ($signature == $tmpStr) {
             Log::info('效验成功', ['$signature' => $signature, '$tmpStr' => $tmpStr]);
             $msg = "";
-            return $echostr;
+//            return $echostr;
 
         } else {
             Log::info('效验失败', ['$signature' => $signature, '$tmpStr' => $tmpStr]);
-
-            return response()->json([
-                'code' => 121,
-                'msg' => '调用失败',
-                'data' => $data,
-                'Token' => 'xZfV1M9Q9Vx1kjqD',
-                'echostr' => $echostr,
-            ]);
+//
+//            return response()->json([
+//                'code' => 121,
+//                'msg' => '调用失败',
+//                'data' => $data,
+//                'Token' => 'xZfV1M9Q9Vx1kjqD',
+//                'echostr' => $echostr,
+//            ]);
         }
         Log::info('获取请求数据', [$request, __METHOD__]);
 
