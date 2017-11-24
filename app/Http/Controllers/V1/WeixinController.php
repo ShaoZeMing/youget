@@ -195,7 +195,7 @@ class WeixinController extends Controller
         if ($signature == $tmpStr) {
             Log::info('效验成功', ['$signature' => $signature, '$tmpStr' => $tmpStr]);
             $msg = "";
-//            return $echostr;
+            return $echostr;
 
         } else {
             Log::info('效验失败', ['$signature' => $signature, '$tmpStr' => $tmpStr]);
