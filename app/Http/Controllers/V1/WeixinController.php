@@ -265,8 +265,8 @@ class WeixinController extends Controller
             "sub_button": [
                 {
                     "type": "view", 
-                    "name": "linux", 
-                    "url": "http://blog.4d4k.com/category/linux/"
+                    "name": "微信下单", 
+                    "url": "http://shouhou.yipinxiaobai.com/api/v1/weixin/orders/index"
                 }, 
                 {
                     "type": "view", 
@@ -395,5 +395,14 @@ class WeixinController extends Controller
         $result = $this->https_request($url);
         var_dump($result);
     }
+
+
+
+
+    public function orderCreate(){
+
+        return view('weixin.order_create');
+    }
+
 
 }
