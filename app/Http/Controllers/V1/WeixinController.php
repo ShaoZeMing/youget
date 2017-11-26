@@ -253,6 +253,8 @@ class WeixinController extends Controller
     {
 
         $context = [
+
+
             'request' => $request->all(),
             'method' => __METHOD__,
         ];

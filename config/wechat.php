@@ -16,20 +16,20 @@ return [
 //    /*
 //     * 账号基本信息，请从微信公众平台/开放平台获取
 //     */
-    'app_id'  => env('WECHAT_APPID', 'wxfb55ae0afdc9a269'),         // AppID
-    'secret'  => env('WECHAT_SECRET', 'c089b366f5eb8e970f7b2f28cc65a2bd'),     // AppSecret
-    'token'   => env('WECHAT_TOKEN', 'xZfV1M9Q9Vx1kjqD'),          // Token
-    'aes_key' => env('WECHAT_AES_KEY', 'f0tsQwDCNvTl0nejemVEUcLR7p0FkIUMR0i5ytxzcor'),                    // EncodingAESKey
-    'url' => env('WECHAT_URL', 'https://api.weixin.qq.com/'),                    // EncodingAESKey
+//    'app_id'  => env('WECHAT_APPID', 'wxfb55ae0afdc9a269'),         // AppID
+//    'secret'  => env('WECHAT_SECRET', 'c089b366f5eb8e970f7b2f28cc65a2bd'),     // AppSecret
+//    'token'   => env('WECHAT_TOKEN', 'xZfV1M9Q9Vx1kjqD'),          // Token
+//    'aes_key' => env('WECHAT_AES_KEY', 'f0tsQwDCNvTl0nejemVEUcLR7p0FkIUMR0i5ytxzcor'),                    // EncodingAESKey
+//    'url' => env('WECHAT_URL', 'https://api.weixin.qq.com/'),                    // EncodingAESKey
 
     /*
      * 微信测试号，请从微信公众平台/开放平台获取
      */
-//    'app_id'  => env('WECHAT_APPID', 'wx82127081471bb2ad'),         // AppID
-//    'secret'  => env('WECHAT_SECRET', '3acc4259d54577ecddd33d06b36b6780'),     // AppSecret
-//    'token'   => env('WECHAT_TOKEN', 'xZfV1M9Q9Vx1kjqD'),          // Token
-//    'aes_key' => env('WECHAT_AES_KEY', 'f0tsQwDCNvTl0nejemVEUcLR7p0FkIUMR0i5ytxzcor'),                    // EncodingAESKey
-//    'url' => env('WECHAT_URL', 'https://api.weixin.qq.com/'),                    // EncodingAESKey
+    'app_id'  => env('WECHAT_APPID', 'wx82127081471bb2ad'),         // AppID
+    'secret'  => env('WECHAT_SECRET', '3acc4259d54577ecddd33d06b36b6780'),     // AppSecret
+    'token'   => env('WECHAT_TOKEN', 'xZfV1M9Q9Vx1kjqD'),          // Token
+    'aes_key' => env('WECHAT_AES_KEY', 'f0tsQwDCNvTl0nejemVEUcLR7p0FkIUMR0i5ytxzcor'),                    // EncodingAESKey
+    'url' => env('WECHAT_URL', 'https://api.weixin.qq.com/'),                    // EncodingAESKey
 
     /**
      * 开放平台第三方平台配置信息
