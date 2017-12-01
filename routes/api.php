@@ -40,5 +40,6 @@ Route::group([
     Route::any('weixin/menu/create', 'WeixinController@createMenu'); //创建微信菜单
     Route::get('weixin/token', 'WeixinController@getAccessToken'); //微信
     Route::get('weixin/orders/create', 'WeixinController@orderCreate'); //微信
+    Route::any('weixin/notice', 'WeixinController@sendNotice'); //模板消息
 });
 

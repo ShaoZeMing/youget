@@ -7,6 +7,7 @@ use App\Services\ApiService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
+use EasyWeChat\Foundation\Application;
 
 class WeixinController extends Controller
 {
@@ -268,7 +269,7 @@ class WeixinController extends Controller
                 {
                     "type": "view", 
                     "name": "微信下单", 
-                    "url": "http://shouhou.yipinxiaobai.com/api/v1/weixin/orders/index"
+                    "url": "http://shouhou.yipinxiaobai.com/api/v1/weixin/orders/VKLX2MVeAwez/index"
                 }, 
                 {
                     "type": "view", 
@@ -404,6 +405,45 @@ class WeixinController extends Controller
     public function orderCreate(){
 
         return view('weixin.order_create');
+    }
+
+
+
+    public function sendNotice(){
+        $app = app('wechat');
+//        $app = new Application([]);
+        $notice = $app->notice;
+        $templateId = $notice->addTemplate(6);
+        Log::info('创建模板ID',[$templateId,__METHOD__]);
+        $templateArr = $notice->getPrivateTemplates();
+        Log::info('模板列表',[$templateArr,__METHOD__]);
+        $messageId = $notice->send([
+            'touser' => 'oYzfov2raQuxOG0S_Mv4eoX69Cps',
+            'template_id' => 'PpHh8apGSXjJ_PbNs6tMxc_nN5TlBXJ2ic9TJ1j2Y6s',
+            'url' => 'http://shouhou.yipinxiaobai.com/api/v1/weixin/orders/VKLX2MVeAwez/index',
+            'data' => [
+                "first"    => array("下单成功！", '#555555'),
+                "desc" => array("巧克力", "#336699"),
+                "order_no" => array("39.8元", "#FF0000"),
+                "service_mode" => array("上门", "#888888"),
+                "name"   => array("明明！", "#5599FF"),
+                "price"   => array("550元", "#5599FF"),
+        ],
+        ]);
+        Log::info('模板消息ID',[$messageId,__METHOD__]);
+        return '模板消息发送成功';
+    }
+
+
+    public function createNotice(){
+        $notice = "	{{ title.DATA }}\n {{ desc.DATA }}\n 工单号：{{ order_no.DATA }}\n 服务方式：{{ service_mode.DATA }}";
+
+        $app = app('wechat');
+//        $app = new Application([]);
+        $notice = $app->notice;
+        $templateId = $notice->addTemplate(6);
+        $templateArr = $notice->getPrivateTemplates();
+
     }
 
 
