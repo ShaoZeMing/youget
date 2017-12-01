@@ -413,8 +413,8 @@ class WeixinController extends Controller
         $app = app('wechat');
 //        $app = new Application([]);
         $notice = $app->notice;
-        $templateId = $notice->addTemplate(6);
-        Log::info('创建模板ID',[$templateId,__METHOD__]);
+//        $templateId = $notice->addTemplate(6);
+//        Log::info('创建模板ID',[$templateId,__METHOD__]);
         $templateArr = $notice->getPrivateTemplates();
         Log::info('模板列表',[$templateArr,__METHOD__]);
         $messageId = $notice->send([
