@@ -420,7 +420,7 @@ class WeixinController extends Controller
         $messageId = $notice->send([
             'touser' => 'oYzfov2raQuxOG0S_Mv4eoX69Cps',
             'template_id' => 'MhTmjXb8TT9Ec40EpeE3xZcVzE8hHqPEIJZtJOj3ozw',
-            'url' => 'http://shouhou.yipinxiaobai.com/api/v1/weixin/orders/535299413997782025/show',
+            'url' => 'http://shouhou.yipinxiaobai.com/api/v1/weixin/orders/536969186711176198/show',
             'data' => [
                 "title"    => array("下单成功！", '#555555'),
                 "desc" => array("我们会尽快与您取得联系确认上门维修时间，请保持电话畅通。", "#336699"),
