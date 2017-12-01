@@ -419,15 +419,28 @@ class WeixinController extends Controller
         Log::info('模板列表',[$templateArr,__METHOD__]);
         $messageId = $notice->send([
             'touser' => 'oYzfov2raQuxOG0S_Mv4eoX69Cps',
-            'template_id' => 'PpHh8apGSXjJ_PbNs6tMxc_nN5TlBXJ2ic9TJ1j2Y6s',
-            'url' => 'http://shouhou.yipinxiaobai.com/api/v1/weixin/orders/VKLX2MVeAwez/index',
+            'template_id' => 'MhTmjXb8TT9Ec40EpeE3xZcVzE8hHqPEIJZtJOj3ozw',
+            'url' => 'http://shouhou.yipinxiaobai.com/api/v1/weixin/orders/535299413997782025/show',
             'data' => [
-                "first"    => array("下单成功！", '#555555'),
-                "desc" => array("巧克力", "#336699"),
-                "order_no" => array("39.8元", "#FF0000"),
+                "title"    => array("下单成功！", '#555555'),
+                "desc" => array("我们会尽快与您取得联系确认上门维修时间，请保持电话畅通。", "#336699"),
+                "order_no" => array("171201100201302634", "#FF0000"),
+                "service_mode" => array("邮寄", "#888888"),
+        ],
+        ]);
+        Log::info('模板消息ID',[$messageId,__METHOD__]);
+        $messageId = $notice->send([
+            'touser' => 'oYzfov2raQuxOG0S_Mv4eoX69Cps',
+            'template_id' => 'E5FVz2OunMtIp9aEje3bF3n9dpZSX_McBuv2rGVTMbM',
+            'url' => 'http://shouhou.yipinxiaobai.com/api/v1/weixin/orders/536880791171367940/show',
+            'data' => [
+                "title"    => array("下单成功！", '#555555'),
+                "desc" => array("已安排工程师上门", "#336699"),
+                "order_no" => array("171130103701752935", "#FF0000"),
                 "service_mode" => array("上门", "#888888"),
-                "name"   => array("明明！", "#5599FF"),
-                "price"   => array("550元", "#5599FF"),
+                "worker_name" => array("国强师傅-18513117316", "#888888"),
+                "booked_at" => array("2017-11-30 12:00:00", "#888888"),
+                "remark" => array("请保持电话畅通，等待上门。", "#888888"),
         ],
         ]);
         Log::info('模板消息ID',[$messageId,__METHOD__]);
