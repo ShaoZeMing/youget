@@ -413,19 +413,18 @@ class WeixinController extends Controller
         $app = app('wechat');
 //        $app = new Application([]);
         $notice = $app->notice;
-//        $templateId = $notice->addTemplate(6);
-//        Log::info('创建模板ID',[$templateId,__METHOD__]);
+        $templateId = $notice->addTemplate("OPENTM400078336");
+        Log::info('创建模板ID',[$templateId,__METHOD__]);
         $templateArr = $notice->getPrivateTemplates();
         Log::info('模板列表',[$templateArr,__METHOD__]);
         $messageId = $notice->send([
             'touser' => 'oYzfov2raQuxOG0S_Mv4eoX69Cps',
-            'template_id' => 'MhTmjXb8TT9Ec40EpeE3xZcVzE8hHqPEIJZtJOj3ozw',
+            'template_id' => $templateId,
             'url' => 'http://shouhou.yipinxiaobai.com/api/v1/weixin/orders/536969186711176198/show',
             'data' => [
-                "title"    => array("下单成功！", '#555555'),
-                "desc" => array("我们会尽快与您取得联系确认上门维修时间，请保持电话畅通。", "#336699"),
-                "order_no" => array("171201100201302634", "#FF0000"),
-                "service_mode" => array("邮寄", "#888888"),
+                "first"    => array("下单成功！", '#555555'),
+                "keyword1" => array("171201100201302634", "#FF0000"),
+                "keyword2" => array("2017-12-04", "#888888"),
         ],
         ]);
         Log::info('模板消息ID',[$messageId,__METHOD__]);
@@ -438,7 +437,7 @@ class WeixinController extends Controller
                 "desc" => array("已安排工程师上门"),
                 "order_no" => array("171130103701752935"),
                 "service_mode" => array("上门"),
-//                "worker_name" => array("国强师傅-18513117316"),
+                "worker_name" => array("国强师傅-18513117316"),
                 "booked_at" => array("2017-11-30 12:00:00"),
                 "remark" => array('工程师：国强师傅-18513117316 ""请保持电话畅通，等待上门。'),
         ],
