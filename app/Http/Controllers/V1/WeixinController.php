@@ -413,24 +413,25 @@ class WeixinController extends Controller
         $app = app('wechat');
 //        $app = new Application([]);
         $notice = $app->notice;
-        $templateId = $notice->addTemplate("TM00002");
-        Log::info('创建模板ID',[$templateId,__METHOD__]);
+//        $templateId = $notice->addTemplate("TM00002");
+//        Log::info('创建模板ID',[$templateId,__METHOD__]);
         $templateArr = $notice->getPrivateTemplates();
         Log::info('模板列表',[$templateArr,__METHOD__]);
+//        $messageId = $notice->send([
+//            'touser' => 'oYzfov2raQuxOG0S_Mv4eoX69Cps',
+////            'template_id' => $templateId,
+//            'url' => 'http://shouhou.yipinxiaobai.com/api/v1/weixin/orders/536969186711176198/show',
+//            'data' => [
+//                "first"    => array("下单成功！", '#555555'),
+//                "keyword1" => array("171201100201302634", "#FF0000"),
+//                "keyword2" => array("2017-12-04", "#888888"),
+//        ],
+//        ]);
+//        Log::info('模板消息ID',[$messageId,__METHOD__]);
         $messageId = $notice->send([
             'touser' => 'oYzfov2raQuxOG0S_Mv4eoX69Cps',
-            'template_id' => $templateId,
-            'url' => 'http://shouhou.yipinxiaobai.com/api/v1/weixin/orders/536969186711176198/show',
-            'data' => [
-                "first"    => array("下单成功！", '#555555'),
-                "keyword1" => array("171201100201302634", "#FF0000"),
-                "keyword2" => array("2017-12-04", "#888888"),
-        ],
-        ]);
-        Log::info('模板消息ID',[$messageId,__METHOD__]);
-        $messageId = $notice->send([
-            'touser' => 'oYzfov2raQuxOG0S_Mv4eoX69Cps',
-            'template_id' => 'E5FVz2OunMtIp9aEje3bF3n9dpZSX_McBuv2rGVTMbM',
+//            'template_id' => 'E5FVz2OunMtIp9aEje3bF3n9dpZSX_McBuv2rGVTMbM',
+            'template_id' => 'xcdVz2OunMtIp9aEje3bF3n9dpZSX_McBuv2rGVTMbM',
             'url' => 'http://shouhou.yipinxiaobai.com/api/v1/weixin/orders/536880791171367940/show',
             'data' => [
                 "title"    => array("下单成功！"),
