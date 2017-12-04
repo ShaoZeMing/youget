@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 use EasyWeChat\Foundation\Application;
+use Psy\Test\Exception\RuntimeExceptionTest;
 
 class WeixinController extends Controller
 {
@@ -410,13 +411,15 @@ class WeixinController extends Controller
 
 
     public function sendNotice(){
-        $app = app('wechat');
+
+       try{
+           $app = app('wechat');
 //        $app = new Application([]);
-        $notice = $app->notice;
+           $notice = $app->notice;
 //        $templateId = $notice->addTemplate("TM00002");
 //        Log::info('创建模板ID',[$templateId,__METHOD__]);
-        $templateArr = $notice->getPrivateTemplates();
-        Log::info('模板列表',[$templateArr,__METHOD__]);
+           $templateArr = $notice->getPrivateTemplates();
+           Log::info('模板列表',[$templateArr,__METHOD__]);
 //        $messageId = $notice->send([
 //            'touser' => 'oYzfov2raQuxOG0S_Mv4eoX69Cps',
 ////            'template_id' => $templateId,
@@ -428,23 +431,28 @@ class WeixinController extends Controller
 //        ],
 //        ]);
 //        Log::info('模板消息ID',[$messageId,__METHOD__]);
-        $messageId = $notice->send([
-            'touser' => 'oYzfov2raQuxOG0S_Mv4eoX69Cps',
+           $messageId = $notice->send([
+               'touser' => 'oYzfov2raQuxOG0S_Mv4eoX69Cps',
 //            'template_id' => 'E5FVz2OunMtIp9aEje3bF3n9dpZSX_McBuv2rGVTMbM',
-            'template_id' => 'xcdVz2OunMtIp9aEje3bF3n9dpZSX_McBuv2rGVTMbM',
-            'url' => 'http://shouhou.yipinxiaobai.com/api/v1/weixin/orders/536880791171367940/show',
-            'data' => [
-                "title"    => array("下单成功！"),
-                "desc" => array("已安排工程师上门"),
-                "order_no" => array("171130103701752935"),
-                "service_mode" => array("上门"),
-                "worker_name" => array("国强师傅-18513117316"),
-                "booked_at" => array("2017-11-30 12:00:00"),
-                "remark" => array('工程师：国强师傅-18513117316 ""请保持电话畅通，等待上门。'),
-        ],
-        ]);
-        Log::info('模板消息ID',[$messageId,__METHOD__]);
-        return '模板消息发送成功';
+               'template_id' => 'xcdVz2OunMtIp9aEje3bF3n9dpZSX_McBuv2rGVTMbM',
+               'url' => 'http://shouhou.yipinxiaobai.com/api/v1/weixin/orders/536880791171367940/show',
+               'data' => [
+                   "title"    => array("下单成功！"),
+                   "desc" => array("已安排工程师上门"),
+                   "order_no" => array("171130103701752935"),
+                   "service_mode" => array("上门"),
+                   "worker_name" => array("国强师傅-18513117316"),
+                   "booked_at" => array("2017-11-30 12:00:00"),
+                   "remark" => array('工程师：国强师傅-18513117316 ""请保持电话畅通，等待上门。'),
+               ],
+           ]);
+           Log::info('模板消息ID',[$messageId,__METHOD__]);
+           return '模板消息发送成功';
+       }catch (\Exception $e){
+           Log::error($e,[__METHOD__]);
+           return $e->getMessage().',code:'.$e->getCode();
+       }
+
     }
 
 
