@@ -4,6 +4,7 @@ namespace App\Http\Controllers\V1;
 
 use App\Http\Controllers\Controller;
 use App\Services\ApiService;
+use EasyWeChat\Core\Exceptions\HttpException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -414,7 +415,6 @@ class WeixinController extends Controller
 
        try{
            $app = app('wechat');
-//        $app = new Application([]);
            $notice = $app->notice;
 //        $templateId = $notice->addTemplate("TM00002");
 //        Log::info('创建模板ID',[$templateId,__METHOD__]);
@@ -448,8 +448,9 @@ class WeixinController extends Controller
            ]);
            Log::info('模板消息ID',[$messageId,__METHOD__]);
            return '模板消息发送成功';
-       }catch (\Exception $e){
+       }catch (HttpException $e){
            Log::error($e,[__METHOD__]);
+           echo "nidaye";
            return $e->getMessage().',code:'.$e->getCode();
        }
 
