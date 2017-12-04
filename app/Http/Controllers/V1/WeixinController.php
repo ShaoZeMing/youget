@@ -434,13 +434,13 @@ class WeixinController extends Controller
             'template_id' => 'E5FVz2OunMtIp9aEje3bF3n9dpZSX_McBuv2rGVTMbM',
             'url' => 'http://shouhou.yipinxiaobai.com/api/v1/weixin/orders/536880791171367940/show',
             'data' => [
-                "title"    => array("下单成功！", '#555555'),
-                "desc" => array("已安排工程师上门", "#336699"),
-                "order_no" => array("171130103701752935", "#FF0000"),
-                "service_mode" => array("上门", "#888888"),
-                "worker_name" => array("国强师傅-18513117316", "#888888"),
-                "booked_at" => array("2017-11-30 12:00:00", "#888888"),
-                "remark" => array("请保持电话畅通，等待上门。", "#888888"),
+                "title"    => array("下单成功！"),
+                "desc" => array("已安排工程师上门"),
+                "order_no" => array("171130103701752935"),
+                "service_mode" => array("上门"),
+//                "worker_name" => array("国强师傅-18513117316"),
+                "booked_at" => array("2017-11-30 12:00:00"),
+                "remark" => array('工程师：国强师傅-18513117316 ""请保持电话畅通，等待上门。'),
         ],
         ]);
         Log::info('模板消息ID',[$messageId,__METHOD__]);
