@@ -6,7 +6,6 @@
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">支付测试</div>
-
                 <div class="panel-body">
                     <ul>
                         <li>
@@ -34,7 +33,7 @@
                             <h3>微信支付demo</h3>
                             <ul>
                                 <li><a href="appCharge.php" target="_blank">微信手机app支付</a></li>
-                                <li><a href="qrCharge.php" target="_blank">微信扫码支付</a></li>
+                                <li><a href="{{url('api/weixin/qj')}}" target="_blank">微信扫码支付</a></li>
                                 <li><a href="pubCharge.php" target="_blank">微信公众号支付</a></li>
                                 <li><a href="liteCharge.php" target="_blank">小程序支付</a></li>
                                 <li><a href="barCharge.php" target="_blank">微信刷卡支付</a></li>

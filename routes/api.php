@@ -26,7 +26,10 @@ Route::group([
     'namespace' => 'V1',
 //    'prefix'     => 'api',
 ], function ($app) {
+    Route::any('pay/notify/wx', 'PayController@notify'); //支付回调
     Route::get('pay', 'PayController@index'); //支付宝app支付
+
+    //支付宝支付
     Route::get('alipay/app', 'PayController@aliAppPay'); //支付宝app支付
     Route::get('alipay/qj', 'PayController@aliQrPay'); //支付宝扫描支付
     Route::get('alipay/web', 'PayController@aliWebPay'); //支付宝网页支付
@@ -34,6 +37,9 @@ Route::group([
     Route::get('alipay/bar', 'PayController@aliBarPay'); //支付宝条码支付
     Route::get('alipay/charge', 'PayController@getPayCharge'); //支付宝查询订单
 
+    //微信支付
+    Route::get('weixin/app', 'PayController@wxAppPay'); //支付宝app支付
+    Route::get('weixin/qj', 'PayController@wxQrPay'); //支付宝扫描支付
 
 
     Route::any('weixin', 'WeixinController@index'); //微信

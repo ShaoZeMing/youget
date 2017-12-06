@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\V1;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Shaozeming\Push\PushManager;
 use Payment\Common\PayException;
@@ -18,10 +19,12 @@ class PayController extends Controller
      */
 
     protected $aliConfig ;
+    protected $wxConfig ;
     public function __construct()
     {
         date_default_timezone_set('Asia/Shanghai');
         $this->aliConfig = config('aliconfig');
+        $this->wxConfig = config('wxconfig');
     }
 
 
@@ -210,4 +213,55 @@ class PayController extends Controller
 
         echo json_encode($ret, JSON_UNESCAPED_UNICODE);
     }
+
+
+
+
+
+
+
+    //微信扫码支付
+    public function wxQrPay()
+    {
+        $wxConfig = $this->wxConfig;
+//        $wxConfig =  config('wxconfig');
+//        dd($wxConfig);
+        $orderNo = time() . rand(1000, 9999);
+// 订单信息
+        $payData = [
+            'body'    => '下单',
+            'subject'    => '下单',
+            'order_no'    => $orderNo,
+            'timeout_express' => time() + 600,// 表示必须 600s 内付款
+            'amount'    => '0.01',// 微信沙箱模式，需要金额固定为3.01
+            'return_param' => '123',
+            'client_ip' => isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '127.0.0.1',// 客户地址
+//            'openid' => 'ottkCuO1PW1Dnh6PWFffNk-2MPbY',
+            'product_id' => '123454443',
+
+            // 如果是服务商，请提供以下参数
+//            'sub_appid' => '',//微信分配的子商户公众账号ID
+//            'sub_mch_id' => '',// 微信支付分配的子商户号
+        ];
+
+        try {
+            $ret = Charge::run(Config::WX_CHANNEL_QR, $wxConfig, $payData);
+            Log::info('支付下单结果',[$ret],__METHOD__);
+            dd($ret);
+            return view('pay.qr');
+        } catch (PayException $e) {
+            Log::error($e,[__METHOD__]);
+             return $e->errorMessage();
+        }
+    }
+
+
+
+
+     public function notify(Request $request){
+
+        Log::info('微信支付回调通知'.[$request]);
+        return true;
+     }
+
 }
