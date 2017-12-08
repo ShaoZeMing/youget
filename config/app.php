@@ -179,6 +179,7 @@ return [
         Shaozeming\Push\PushServiceProvider::class,
         Ixudra\Curl\CurlServiceProvider::class,//curl
         Overtrue\LaravelWechat\ServiceProvider::class,
+        SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class
         ],
 
     /*

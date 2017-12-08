@@ -6,7 +6,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">扫码测试</div>
                 <div class="panel-body">
-                    {!! isset($data) ? $data :'没有数据' !!}
+                    {!! isset($code) ? $code :'没有数据' !!}
                 </div>
             </div>
         </div>

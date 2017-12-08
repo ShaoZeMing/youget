@@ -40,6 +40,7 @@ Route::group([
     //微信支付
     Route::get('weixin/app', 'PayController@wxAppPay'); //支付宝app支付
     Route::get('weixin/qj', 'PayController@wxQrPay'); //支付宝扫描支付
+    Route::get('weixin/pub', 'PayController@wxPubPay'); //支付宝扫描支付
 
 
     Route::any('weixin', 'WeixinController@index'); //微信
