@@ -3,6 +3,8 @@
 /public/storage
 /storage/
 /vendor
+/config/wxconfig.php
+/config/aliconfig.php
 /.idea
 /.vagrant
 Homestead.json
