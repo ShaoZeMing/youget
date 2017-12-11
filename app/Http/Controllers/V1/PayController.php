@@ -225,8 +225,6 @@ class PayController extends Controller
     public function wxQrPay()
     {
         $wxConfig = $this->wxConfig;
-//        $wxConfig =  config('wxconfig');
-//        dd($wxConfig);
         $orderNo = time() . rand(1000, 9999);
 // 订单信息
         $payData = [
@@ -247,8 +245,9 @@ class PayController extends Controller
 
         try {
             $ret = Charge::run(Config::WX_CHANNEL_QR, $wxConfig, $payData);
-            Log::info('支付下单结果',[$ret],__METHOD__);
-            $code = QrCode::size(250)->generate($ret);
+            Log::info('支付下单结果',[$ret,__METHOD__]);
+//            dd($ret);
+            $code = QrCode::size(250)->generate($ret['code_url']);
 
 //            dd($ret);
             return view('pay.qr',['code'=>$code]);
@@ -274,7 +273,7 @@ class PayController extends Controller
             'amount'    => '0.01',// 微信沙箱模式，需要金额固定为3.01
             'return_param' => '134423',
             'client_ip' => isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '127.0.0.1',// 客户地址
-            'openid' => 'o-e_mwTXTaxEhBM8xDoj1ui1f950',
+            'openid' => 'orWRU07nUA_pskOQueZ_n5Z6ZPmY',
             'product_id' => '123',
 
             // 如果是服务商，请提供以下参数
@@ -286,8 +285,8 @@ class PayController extends Controller
         try {
             $ret = Charge::run(Config::WX_CHANNEL_PUB, $wxConfig, $payData);
             Log::info('支付下单结果',[$ret],__METHOD__);
-            dd($ret);
-            return view('pay.qr');
+//            dd($ret);
+            return view('pay.pub',$ret);
         } catch (PayException $e) {
             Log::error($e,[__METHOD__]);
              return $e->errorMessage();
@@ -300,7 +299,7 @@ class PayController extends Controller
      public function notify(Request $request){
 
         Log::info('微信支付回调通知'.[$request]);
-        return true;
+        return 'success';
      }
 
 }
