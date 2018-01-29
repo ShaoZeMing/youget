@@ -247,7 +247,8 @@ class PayController extends Controller
             $ret = Charge::run(Config::WX_CHANNEL_QR, $wxConfig, $payData);
             Log::info('支付下单结果',[$ret,__METHOD__]);
 //            dd($ret);
-            $code = QrCode::size(250)->generate($ret['code_url']);
+//            $code = QrCode::size(250)->generate($ret['code_url']);
+            $code = QrCode::size(250)->generate('http://saas1.4d4k.com/api/v1/weixin/orders/537632978391532551/index');
 
 //            dd($ret);
             return view('pay.qr',['code'=>$code]);
