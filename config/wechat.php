@@ -34,12 +34,12 @@ return [
     /**
      * 开放平台第三方平台配置信息
      */
-    // 'open_platform' => [
-    //     'app_id'  => env('WECHAT_OPEN_PLATFORM_APPID', ''),
-    //     'secret'  => env('WECHAT_OPEN_PLATFORM_SECRET', ''),
-    //     'token'   => env('WECHAT_OPEN_PLATFORM_TOKEN', ''),
-    //     'aes_key' => env('WECHAT_OPEN_PLATFORM_AES_KEY', ''),
-    // ],
+     'open_platform' => [
+         'app_id'  => env('WECHAT_OPEN_PLATFORM_APPID', ''),
+         'secret'  => env('WECHAT_OPEN_PLATFORM_SECRET', ''),
+         'token'   => env('WECHAT_OPEN_PLATFORM_TOKEN', ''),
+         'aes_key' => env('WECHAT_OPEN_PLATFORM_AES_KEY', ''),
+     ],
 
     /**
      * 小程序配置信息
@@ -55,13 +55,13 @@ return [
      * 路由配置
      */
     'route' => [
-        'enabled' => false,         // 是否开启路由
+        'enabled' => true,         // 是否开启路由
         'attributes' => [           // 路由 group 参数
             'prefix' => null,
             'middleware' => null,
             'as' => 'easywechat::',
         ],
-        'open_platform_serve_url' => 'open-platform-serve', // 开放平台服务URL
+        'open_platform_serve_url' => 'http://test.4d4k.com/api/weixin/platform/auth', // 开放平台服务URL
     ],
 
     /*
@@ -83,25 +83,25 @@ return [
      * scopes：公众平台（snsapi_userinfo / snsapi_base），开放平台：snsapi_login
      * callback：OAuth授权完成后的回调页地址(如果使用中间件，则随便填写。。。)
      */
-    // 'oauth' => [
-    //     'only_wechat_browser' => false,
-    //     'scopes'   => array_map('trim', explode(',', env('WECHAT_OAUTH_SCOPES', 'snsapi_userinfo'))),
-    //     'callback' => env('WECHAT_OAUTH_CALLBACK', '/examples/oauth_callback.php'),
-    // ],
+     'oauth' => [
+         'only_wechat_browser' => false,
+         'scopes'   => array_map('trim', explode(',', env('WECHAT_OAUTH_SCOPES', 'snsapi_userinfo'))),
+         'callback' => env('WECHAT_OAUTH_CALLBACK', '/examples/oauth_callback.php'),
+     ],
 
     /*
      * 微信支付
      */
-    // 'payment' => [
-    //     'merchant_id'        => env('WECHAT_PAYMENT_MERCHANT_ID', 'your-mch-id'),
-    //     'key'                => env('WECHAT_PAYMENT_KEY', 'key-for-signature'),
-    //     'cert_path'          => env('WECHAT_PAYMENT_CERT_PATH', 'path/to/your/cert.pem'), // XXX: 绝对路径！！！！
-    //     'key_path'           => env('WECHAT_PAYMENT_KEY_PATH', 'path/to/your/key'),      // XXX: 绝对路径！！！！
-    //     // 'device_info'     => env('WECHAT_PAYMENT_DEVICE_INFO', ''),
-    //     // 'sub_app_id'      => env('WECHAT_PAYMENT_SUB_APP_ID', ''),
-    //     // 'sub_merchant_id' => env('WECHAT_PAYMENT_SUB_MERCHANT_ID', ''),
-    //     // ...
-    // ],
+     'payment' => [
+         'merchant_id'        => env('WECHAT_PAYMENT_MERCHANT_ID', 'your-mch-id'),
+         'key'                => env('WECHAT_PAYMENT_KEY', 'key-for-signature'),
+         'cert_path'          => env('WECHAT_PAYMENT_CERT_PATH', 'path/to/your/cert.pem'), // XXX: 绝对路径！！！！
+         'key_path'           => env('WECHAT_PAYMENT_KEY_PATH', 'path/to/your/key'),      // XXX: 绝对路径！！！！
+         // 'device_info'     => env('WECHAT_PAYMENT_DEVICE_INFO', ''),
+         // 'sub_app_id'      => env('WECHAT_PAYMENT_SUB_APP_ID', ''),
+         // 'sub_merchant_id' => env('WECHAT_PAYMENT_SUB_MERCHANT_ID', ''),
+         // ...
+     ],
 
     /*
      * 开发模式下的免授权模拟授权用户资料

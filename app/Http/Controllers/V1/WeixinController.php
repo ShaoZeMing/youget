@@ -174,43 +174,53 @@ class WeixinController extends Controller
     public function index(Request $request)
     {
 
-//        $data = $request->all();
-//        $echostr = $request->get('echostr');
-//        $signature = $request->get('signature');
-//        $timestamp = $request->get('timestamp');
-//        $nonce = $request->get('nonce');
-//        $token = config('wechat.token');
-//
-//        $tmpArr = [$token, $timestamp, $nonce];
-//        sort($tmpArr, SORT_STRING);
-//        $tmpStr1 = implode($tmpArr);
-//        $tmpStr = sha1($tmpStr1);
-//        $context = [
-//            'f' => __METHOD__,
-//            'data' => $data,
-//            '$tmpArr' => $tmpArr,
-//            '$tmpStr' => $tmpStr,
-//            '$tmpStr1' => $tmpStr1,
-//        ];
-//        Log::info('请求参数', $context);
-//
-//
-//        if ($signature == $tmpStr) {
-//            Log::info('效验成功', ['$signature' => $signature, '$tmpStr' => $tmpStr]);
-//            $msg = "";
-////            return $echostr;
-//
-//        } else {
-//            Log::info('效验失败', ['$signature' => $signature, '$tmpStr' => $tmpStr]);
-////
-////            return response()->json([
-////                'code' => 121,
-////                'msg' => '调用失败',
-////                'data' => $data,
-////                'Token' => 'xZfV1M9Q9Vx1kjqD',
-////                'echostr' => $echostr,
-////            ]);
-//        }
+        Log::info('获取请求数据', [$request, __METHOD__]);
+
+        $app = app('wechat')->server;
+        $msgArr = $app->getMessage();
+        Log::info('请求message',$msgArr);
+
+        $app->setMessageHandler(function ($message) {
+          switch ($message->MsgType) {
+        case 'event':
+            return '收到事件消息';
+            break;
+        case 'text':
+            return '收到文字消息';
+            break;
+        case 'image':
+            return '收到图片消息';
+            break;
+        case 'voice':
+            return '收到语音消息';
+            break;
+        case 'video':
+            return '收到视频消息';
+            break;
+        case 'location':
+            return '收到坐标消息';
+            break;
+        case 'link':
+            return '收到链接消息';
+            break;
+        // ... 其它消息
+        default:
+            return '收到其它消息';
+            break;
+    }
+        });
+
+        return $app->serve();
+    }
+
+ /**
+     * 处理平台微信的请求消息
+     *
+     * @return string
+     */
+    public function platform(Request $request,$id)
+    {
+
         Log::info('获取请求数据', [$request, __METHOD__]);
 
         $app = app('wechat')->server;

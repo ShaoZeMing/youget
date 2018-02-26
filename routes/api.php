@@ -20,6 +20,14 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::post('phone/code', 'ApiController@sendVerifyCode');
 
 
+Route::group([
+    'middleware' => ['web', 'wechat.oauth']],
+    function () {
+    Route::get('weixin/user', function () {
+        $user = session('wechat.oauth_user'); // 拿到授权用户资料
+        dd($user);
+    });
+});
 
 Route::group([
 //    'middleware' => 'signature',
@@ -43,7 +51,9 @@ Route::group([
     Route::get('weixin/pub', 'PayController@wxPubPay'); //支付宝扫描支付
 
 
+
     Route::any('weixin', 'WeixinController@index'); //微信
+    Route::any('weixin/platform/{$id}', 'WeixinController@platform'); //微信
     Route::any('weixin/menu/create', 'WeixinController@createMenu'); //创建微信菜单
     Route::get('weixin/token', 'WeixinController@getAccessToken'); //微信
     Route::get('weixin/orders/create', 'WeixinController@orderCreate'); //微信
