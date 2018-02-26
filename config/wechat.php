@@ -36,7 +36,7 @@ return [
      */
      'open_platform' => [
          'app_id'  => env('WECHAT_OPEN_PLATFORM_APPID', 'wx060eed678e52387a'),
-         'secret'  => env('WECHAT_OPEN_PLATFORM_SECRET', ''),
+         'secret'  => env('WECHAT_OPEN_PLATFORM_SECRET', '77b6c53447b7843015a238307b353c13'),
          'token'   => env('WECHAT_OPEN_PLATFORM_TOKEN', 'xZfV1M9Q9Vx1kjqD'),
          'aes_key' => env('WECHAT_OPEN_PLATFORM_AES_KEY', 'f0tsQwDCNvTl0nejemVEUcLR7p0FkIUMR0i5ytxzcor'),
      ],
