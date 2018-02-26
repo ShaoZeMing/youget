@@ -35,10 +35,10 @@ return [
      * 开放平台第三方平台配置信息
      */
      'open_platform' => [
-         'app_id'  => env('WECHAT_OPEN_PLATFORM_APPID', ''),
+         'app_id'  => env('WECHAT_OPEN_PLATFORM_APPID', 'wx060eed678e52387a'),
          'secret'  => env('WECHAT_OPEN_PLATFORM_SECRET', ''),
-         'token'   => env('WECHAT_OPEN_PLATFORM_TOKEN', ''),
-         'aes_key' => env('WECHAT_OPEN_PLATFORM_AES_KEY', ''),
+         'token'   => env('WECHAT_OPEN_PLATFORM_TOKEN', 'xZfV1M9Q9Vx1kjqD'),
+         'aes_key' => env('WECHAT_OPEN_PLATFORM_AES_KEY', 'f0tsQwDCNvTl0nejemVEUcLR7p0FkIUMR0i5ytxzcor'),
      ],
 
     /**
@@ -108,7 +108,7 @@ return [
      *
      * 当 enable_mock 为 true 则会启用模拟微信授权，用于开发时使用，开发完成请删除或者改为 false 即可
      */
-    'enable_mock' => env('WECHAT_ENABLE_MOCK', true),
+    'enable_mock' => env('WECHAT_ENABLE_MOCK', false),
     'mock_user' => [
         'openid' => 'odh7zsgI75iT8FRh0fGlSojc9PWM',
         // 以下字段为 scope 为 snsapi_userinfo 时需要
