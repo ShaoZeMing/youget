@@ -5,6 +5,7 @@ namespace App\Http\Controllers\V1;
 use App\Http\Controllers\Controller;
 use App\Services\ApiService;
 use EasyWeChat\Core\Exceptions\HttpException;
+use EasyWeChat\OpenPlatform\Guard;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -174,7 +175,7 @@ class WeixinController extends Controller
     public function index(Request $request)
     {
 
-        Log::info('获取请求数据', [$request, __METHOD__]);
+        Log::info('获取请求数据weixin', [$request, __METHOD__]);
 
         $app = app('wechat')->server;
         $msgArr = $app->getMessage();
@@ -221,9 +222,9 @@ class WeixinController extends Controller
     public function platform(Request $request,$id)
     {
 
-        Log::info('获取请求数据', [$request, __METHOD__]);
+        Log::info('获取请求数据platform', [$request,$id, __METHOD__]);
 
-        $app = app('wechat')->server;
+        $app = app('wechat')->open_platform->server;
         $msgArr = $app->getMessage();
         Log::info('请求message',$msgArr);
 
@@ -258,6 +259,55 @@ class WeixinController extends Controller
         });
 
         return $app->serve();
+    }
+
+
+ /**
+     * 处理平台微信的请求消息
+     *
+     * @return string
+     */
+    public function platformAuth(Request $request)
+    {
+
+        Log::info('获取请求数据platform', [$request, __METHOD__]);
+
+        $context = [
+            '$request' => $request->all(),
+            'method' => __METHOD__,
+        ];
+        try {
+            Log::info('微信授权接收接口', $context);
+            $openPlatform = app('wechat')->open_platform;
+            $openPlatform->server->setMessageHandler(function ($event) use ($openPlatform) {
+                // 事件类型常量定义在 \EasyWeChat\OpenPlatform\Guard 类里
+                switch ($event->InfoType) {
+                    case Guard::EVENT_AUTHORIZED: // 授权成功
+                        $authorizationInfo = $openPlatform->getAuthorizationInfo($event->AuthorizationCode);
+                        // 保存数据库操作等...
+                        Log::info('授权成功', [$authorizationInfo]);
+                        break;
+                    case Guard::EVENT_UPDATE_AUTHORIZED: // 更新授权
+                        // 更新数据库操作等...
+                        Log::info('授权更新', [__METHOD__]);
+                        break;
+                    case Guard::EVENT_UNAUTHORIZED: // 授权取消
+                        // 更新数据库操作等...
+                        Log::info('授权取消', [__METHOD__]);
+//                        $authorizationInfo = $openPlatform->getAuthorizationInfo();
+//                        $date = [
+//                            'refresh_token' => '',
+//                        ];
+//                        $company = $companyRepository->where('app_id',$authorizationInfo->authorizer_appid)->update($date);
+                        break;
+                }
+            });
+            return $openPlatform->server->serve();
+        } catch (\Exception $e) {
+            Log::error($e, $context);
+            return 'success';
+        }
+
     }
 
 

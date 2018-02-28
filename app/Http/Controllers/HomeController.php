@@ -2,10 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\OrderShipped;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
-use Shaozeming\Push\PushManager;
 
 class HomeController extends Controller
 {
@@ -26,12 +23,23 @@ class HomeController extends Controller
      */
     public function index()
     {
-        try{
-            //邮件报警
-
+        try {
+            try {
+                //邮件报警
+                //微信授权
+                $app = app('wechat');
+                $openPlatform = $app->open_platform;
+                $response = $openPlatform->pre_auth->redirect(url("api/v1/weixin/target/123456/auth"));
+                // 获取跳转的 URL
+                $url = $response->getTargetUrl();
+                Log::info('获取预授权URL Code:', [$url]);
+                $data['auth_url'] = $url;
+            } catch (\Exception $e) {
+                Log::error($e, [__METHOD__]);
+            }
             // 你的操作.....
-            return view('home');
-        }catch (\Exception $e){
+            return view('home',$data);
+        } catch (\Exception $e) {
             sendErrorMail($e);
         }
     }
