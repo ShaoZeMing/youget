@@ -34,29 +34,29 @@ class WeixinController extends Controller
         $app->setMessageHandler(function ($message) {
             switch ($message->MsgType) {
                 case 'event':
-                    return '收到事件消息';
+                    return '收到事件消息1';
                     break;
                 case 'text':
-                    return '收到文字消息';
+                    return '收到文字消息1';
                     break;
                 case 'image':
-                    return '收到图片消息';
+                    return '收到图片消息1';
                     break;
                 case 'voice':
-                    return '收到语音消息';
+                    return '收到语音消息1';
                     break;
                 case 'video':
-                    return '收到视频消息';
+                    return '收到视频消息1';
                     break;
                 case 'location':
-                    return '收到坐标消息';
+                    return '收到坐标消息1';
                     break;
                 case 'link':
-                    return '收到链接消息';
+                    return '收到链接消息1';
                     break;
                 // ... 其它消息
                 default:
-                    return '收到其它消息';
+                    return '收到其它消息1';
                     break;
             }
         });
@@ -113,6 +113,8 @@ class WeixinController extends Controller
     }
 
 
+
+
     //创建微信自定义菜单
     public function createMenu(Request $request)
     {
@@ -123,89 +125,57 @@ class WeixinController extends Controller
         ];
 
         try {
-            $jsonmenu = [
+            $buttons = [
                 [
-                    "name" => "我的博客",
-                    "sub_button" => [
-                        [
-                            "type" => "view",
-                            "name" => "微信下单",
-                            "url" => "http=>//shouhou.yipinxiaobai.com/api/v1/weixin/orders/VKLX2MVeAwez/index"
-                        ],
-                        [
-                            "type" => "view",
-                            "name" => "PHP",
-                            "url" => "http=>//blog.4d4k.com/category/php/"
-                        ],
-                        [
-                            "type" => "view",
-                            "name" => "SQL",
-                            "url" => "http=>//blog.4d4k.com/category/sql/"
-                        ]
-                    ]
+                    "type" => "view",
+                    "name" => "在线下单",
+                    "url" => "https://bm.dxlsd.com.cn/api/v1/weixin/orders/123/index"
                 ],
                 [
-                    "name" => "扫一扫",
+                    "name" => "最新活动",
                     "sub_button" => [
                         [
-                            "type" => "scancode_waitmsg",
-                            "name" => "扫码带提示",
-                            "key" => "sao_ma_ti_shi",
-                            "sub_button" => []
+                            "type" => "view",
+                            "name" => "获取当前用户",
+                            "url" => "http://test.4d4k.com/api/weixin/mp/user/"
                         ],
                         [
-                            "type" => "scancode_push",
-                            "name" => "扫码推事件",
-                            "key" => "sao_ma_tui",
-                            "sub_button" => []
+                            "type" => "view",
+                            "name" => "视频",
+                            "url" => "http://v.qq.com/"
                         ],
                         [
                             "type" => "click",
-                            "name" => "今日歌曲",
-                            "key" => "V1001_TODAY_MUSIC"
-                        ]
+                            "name" => "赞一下我们",
+                            "key" => "V1001_GOOD"
+                        ],
                     ]
+
                 ],
                 [
-                    "name" => "发图",
-                    "sub_button" => [
-                        [
-                            "type" => "pic_sysphoto",
-                            "name" => "拍照发图",
-                            "key" => "pai_zhao",
-                            "sub_button" => []
-                        ],
-                        [
-                            "type" => "pic_photo_or_album",
-                            "name" => "拍照or相册",
-                            "key" => "pai_zhao_or_photos",
-                            "sub_button" => []
-                        ],
-                        [
-                            "type" => "pic_weixin",
-                            "name" => "微信相册发图",
-                            "key" => "wixin_photos"
-                        ],
-                        [
-                            "type" => "location_select",
-                            "name" => "发送位置",
-                            "key" => "address"
-                        ]
-                    ]
-                ]
+                    "type" => "click",
+                    "name" => "我的订单",
+                    "key" => "my_orders"
+                ],
             ];
 
             $app = app('wechat');
-            $xx = $app->menu->add($jsonmenu);
+            $xx = $app->menu->add($buttons);
 
-            return $xx;
+            return 111111;
         } catch (\Exception $e) {
             Log::info($e, $context);
         }
     }
 
 
+    //获取
+    public function user()
+    {
 
+        $user = session('wechat.oauth_user'); // 拿到授权用户资料
+        dd($user);
+    }
 
     //获取
     public function getAccessToken()
@@ -243,7 +213,6 @@ class WeixinController extends Controller
 
     public function orderCreate()
     {
-
         return view('weixin.order_create');
     }
 

@@ -28,18 +28,18 @@ return [
     'app_id'  => env('WECHAT_APPID', 'wx82127081471bb2ad'),         // AppID
     'secret'  => env('WECHAT_SECRET', '3acc4259d54577ecddd33d06b36b6780'),     // AppSecret
     'token'   => env('WECHAT_TOKEN', 'xZfV1M9Q9Vx1kjqD'),          // Token
-    'aes_key' => env('WECHAT_AES_KEY', 'f0tsQwDCNvTl0nejemVEUcLR7p0FkIUMR0i5ytxzcor'),                    // EncodingAESKey
+    'aes_key' => env('WECHAT_AES_KEY', ''),                    // EncodingAESKey
     'url' => env('WECHAT_URL', 'https://api.weixin.qq.com/'),                    // EncodingAESKey
 
     /**
      * 开放平台第三方平台配置信息
      */
-     'open_platform' => [
-         'app_id'  => env('WECHAT_OPEN_PLATFORM_APPID', 'wx060eed678e52387a'),
-         'secret'  => env('WECHAT_OPEN_PLATFORM_SECRET', '77b6c53447b7843015a238307b353c13'),
-         'token'   => env('WECHAT_OPEN_PLATFORM_TOKEN', 'xZfV1M9Q9Vx1kjqD'),
-         'aes_key' => env('WECHAT_OPEN_PLATFORM_AES_KEY', 'f0tsQwDCNvTl0nejemVEUcLR7p0FkIUMR0i5ytxzcor'),
-     ],
+    'open_platform' => [
+        'app_id'  => env('WECHAT_OPEN_PLATFORM_APPID', 'wx060eed678e52387a'),
+        'secret'  => env('WECHAT_OPEN_PLATFORM_SECRET', '77b6c53447b7843015a238307b353c13'),
+        'token'   => env('WECHAT_OPEN_PLATFORM_TOKEN', 'xZfV1M9Q9Vx1kjqD'),
+        'aes_key' => env('WECHAT_OPEN_PLATFORM_AES_KEY', 'f0tsQwDCNvTl0nejemVEUcLR7p0FkIUMR0i5ytxzcor'),
+    ],
 
     /**
      * 小程序配置信息
@@ -83,25 +83,25 @@ return [
      * scopes：公众平台（snsapi_userinfo / snsapi_base），开放平台：snsapi_login
      * callback：OAuth授权完成后的回调页地址(如果使用中间件，则随便填写。。。)
      */
-     'oauth' => [
-         'only_wechat_browser' => false,
-         'scopes'   => array_map('trim', explode(',', env('WECHAT_OAUTH_SCOPES', 'snsapi_userinfo'))),
-         'callback' => env('WECHAT_OAUTH_CALLBACK', 'http://test.4d4k.com/api/weixin/platform/auth'),
-     ],
+    'oauth' => [
+        'only_wechat_browser' => false,
+        'scopes'   => array_map('trim', explode(',', env('WECHAT_OAUTH_SCOPES', 'snsapi_userinfo'))),
+        'callback' => env('WECHAT_OAUTH_CALLBACK', 'http://test.4d4k.com/api/weixin/platform/auth'),
+    ],
 
     /*
      * 微信支付
      */
-     'payment' => [
-         'merchant_id'        => env('WECHAT_PAYMENT_MERCHANT_ID', 'your-mch-id'),
-         'key'                => env('WECHAT_PAYMENT_KEY', 'key-for-signature'),
-         'cert_path'          => env('WECHAT_PAYMENT_CERT_PATH', 'path/to/your/cert.pem'), // XXX: 绝对路径！！！！
-         'key_path'           => env('WECHAT_PAYMENT_KEY_PATH', 'path/to/your/key'),      // XXX: 绝对路径！！！！
-         // 'device_info'     => env('WECHAT_PAYMENT_DEVICE_INFO', ''),
-         // 'sub_app_id'      => env('WECHAT_PAYMENT_SUB_APP_ID', ''),
-         // 'sub_merchant_id' => env('WECHAT_PAYMENT_SUB_MERCHANT_ID', ''),
-         // ...
-     ],
+    'payment' => [
+        'merchant_id'        => env('WECHAT_PAYMENT_MERCHANT_ID', 'your-mch-id'),
+        'key'                => env('WECHAT_PAYMENT_KEY', 'key-for-signature'),
+        'cert_path'          => env('WECHAT_PAYMENT_CERT_PATH', 'path/to/your/cert.pem'), // XXX: 绝对路径！！！！
+        'key_path'           => env('WECHAT_PAYMENT_KEY_PATH', 'path/to/your/key'),      // XXX: 绝对路径！！！！
+        // 'device_info'     => env('WECHAT_PAYMENT_DEVICE_INFO', ''),
+        // 'sub_app_id'      => env('WECHAT_PAYMENT_SUB_APP_ID', ''),
+        // 'sub_merchant_id' => env('WECHAT_PAYMENT_SUB_MERCHANT_ID', ''),
+        // ...
+    ],
 
     /*
      * 开发模式下的免授权模拟授权用户资料
