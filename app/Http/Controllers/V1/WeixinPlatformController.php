@@ -5,10 +5,11 @@ namespace App\Http\Controllers\V1;
 use App\Http\Controllers\Controller;
 use App\Services\ApiService;
 use EasyWeChat\Core\Exceptions\HttpException;
+use EasyWeChat\OpenPlatform\Guard;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
-class WeixinController extends Controller
+class WeixinPlatformController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -25,10 +26,12 @@ class WeixinController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function server(Request $request)
+    public function server(Request $request,$id)
     {
-        Log::info('获取请求数据weixin', [$request, __METHOD__]);
-        $app = app('wechat')->server;
+
+        Log::info('获取请求数据platform', [$request, $id, __METHOD__]);
+
+        $app = app('wechat')->open_platform->server;
         $msgArr = $app->getMessage();
         Log::info('请求message', $msgArr);
         $app->setMessageHandler(function ($message) {
@@ -60,151 +63,77 @@ class WeixinController extends Controller
                     break;
             }
         });
-
         return $app->serve();
-
     }
 
+
+
+
+
     /**
-     * 处理微信的请求消息
+     * 处理平台微信的请求消息
      *
      * @return string
      */
-    public function index(Request $request)
+    public function auth(Request $request)
     {
-
-        Log::info('获取请求数据weixin', [$request, __METHOD__]);
-
-        $app = app('wechat')->server;
-        $msgArr = $app->getMessage();
-        Log::info('请求message', $msgArr);
-
-        $app->setMessageHandler(function ($message) {
-            switch ($message->MsgType) {
-                case 'event':
-                    return '收到事件消息';
-                    break;
-                case 'text':
-                    return '收到文字消息';
-                    break;
-                case 'image':
-                    return '收到图片消息';
-                    break;
-                case 'voice':
-                    return '收到语音消息';
-                    break;
-                case 'video':
-                    return '收到视频消息';
-                    break;
-                case 'location':
-                    return '收到坐标消息';
-                    break;
-                case 'link':
-                    return '收到链接消息';
-                    break;
-                // ... 其它消息
-                default:
-                    return '收到其它消息';
-                    break;
-            }
-        });
-
-        return $app->serve();
-    }
-
-
-    //创建微信自定义菜单
-    public function createMenu(Request $request)
-    {
-
+        Log::info('获取请求数据platform', [$request, __METHOD__]);
         $context = [
-            'request' => $request->all(),
+            '$request' => $request->all(),
             'method' => __METHOD__,
         ];
-
         try {
-            $jsonmenu = [
-                [
-                    "name" => "我的博客",
-                    "sub_button" => [
-                        [
-                            "type" => "view",
-                            "name" => "微信下单",
-                            "url" => "http=>//shouhou.yipinxiaobai.com/api/v1/weixin/orders/VKLX2MVeAwez/index"
-                        ],
-                        [
-                            "type" => "view",
-                            "name" => "PHP",
-                            "url" => "http=>//blog.4d4k.com/category/php/"
-                        ],
-                        [
-                            "type" => "view",
-                            "name" => "SQL",
-                            "url" => "http=>//blog.4d4k.com/category/sql/"
-                        ]
-                    ]
-                ],
-                [
-                    "name" => "扫一扫",
-                    "sub_button" => [
-                        [
-                            "type" => "scancode_waitmsg",
-                            "name" => "扫码带提示",
-                            "key" => "sao_ma_ti_shi",
-                            "sub_button" => []
-                        ],
-                        [
-                            "type" => "scancode_push",
-                            "name" => "扫码推事件",
-                            "key" => "sao_ma_tui",
-                            "sub_button" => []
-                        ],
-                        [
-                            "type" => "click",
-                            "name" => "今日歌曲",
-                            "key" => "V1001_TODAY_MUSIC"
-                        ]
-                    ]
-                ],
-                [
-                    "name" => "发图",
-                    "sub_button" => [
-                        [
-                            "type" => "pic_sysphoto",
-                            "name" => "拍照发图",
-                            "key" => "pai_zhao",
-                            "sub_button" => []
-                        ],
-                        [
-                            "type" => "pic_photo_or_album",
-                            "name" => "拍照or相册",
-                            "key" => "pai_zhao_or_photos",
-                            "sub_button" => []
-                        ],
-                        [
-                            "type" => "pic_weixin",
-                            "name" => "微信相册发图",
-                            "key" => "wixin_photos"
-                        ],
-                        [
-                            "type" => "location_select",
-                            "name" => "发送位置",
-                            "key" => "address"
-                        ]
-                    ]
-                ]
-            ];
-
-            $app = app('wechat');
-            $xx = $app->menu->add($jsonmenu);
-
-            return $xx;
+            Log::info('微信授权接收接口', $context);
+            $openPlatform = app('wechat')->open_platform;
+            $openPlatform->server->setMessageHandler(function ($event) use ($openPlatform) {
+                // 事件类型常量定义在 \EasyWeChat\OpenPlatform\Guard 类里
+                switch ($event->InfoType) {
+                    case Guard::EVENT_AUTHORIZED: // 授权成功
+                        $authorizationInfo = $openPlatform->getAuthorizationInfo($event->AuthorizationCode);
+                        // 保存数据库操作等...
+                        Log::info('授权成功', [$authorizationInfo]);
+                        break;
+                    case Guard::EVENT_UPDATE_AUTHORIZED: // 更新授权
+                        // 更新数据库操作等...
+                        Log::info('授权更新', [__METHOD__]);
+                        break;
+                    case Guard::EVENT_UNAUTHORIZED: // 授权取消
+                        // 更新数据库操作等...
+                        Log::info('授权取消', [__METHOD__]);
+//                        $authorizationInfo = $openPlatform->getAuthorizationInfo();
+//                        $date = [
+//                            'refresh_token' => '',
+//                        ];
+//                        $company = $companyRepository->where('app_id',$authorizationInfo->authorizer_appid)->update($date);
+                        break;
+                }
+            });
+            return $openPlatform->server->serve();
         } catch (\Exception $e) {
-            Log::info($e, $context);
+            Log::error($e, $context);
+            return 'success';
         }
+
     }
 
 
+
+    //https
+    function https_request($url, $data = null)
+    {
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE);
+        if (!empty($data)) {
+            curl_setopt($curl, CURLOPT_POST, 1);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+        }
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        $output = curl_exec($curl);
+        curl_close($curl);
+        return $output;
+    }
 
 
     //获取

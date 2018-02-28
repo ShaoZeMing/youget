@@ -20,14 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::post('phone/code', 'ApiController@sendVerifyCode');
 
 
-Route::group([
-    'middleware' => ['web', 'wechat.oauth']],
-    function () {
-    Route::get('weixin/user', function () {
-        $user = session('wechat.oauth_user'); // 拿到授权用户资料
-        dd($user);
-    });
-});
+
 
 Route::group([
 //    'middleware' => 'signature',
@@ -52,12 +45,25 @@ Route::group([
 
 
 
-    Route::any('weixin', 'WeixinController@index'); //微信
-    Route::any('weixin/platform/{$id}', 'WeixinController@platform'); //微信
-    Route::any('weixin/platform', 'WeixinController@platformAuth');//微信
-    Route::any('weixin/menu/create', 'WeixinController@createMenu'); //创建微信菜单
-    Route::get('weixin/token', 'WeixinController@getAccessToken'); //微信
-    Route::get('weixin/orders/create', 'WeixinController@orderCreate'); //微信
-    Route::any('weixin/notice', 'WeixinController@sendNotice'); //模板消息
+
+    Route::any('weixin/mp/server', 'WeixinController@server'); //单版本公众号微信接收事件接口
+    Route::get('weixin/mp/menu/create', 'WeixinController@createMenu'); //创建微信菜单
+
+    Route::group([
+        'middleware' => ['web', 'wechat.oauth']],
+        function () {
+            Route::get('weixin/mp/user', function () {
+                $user = session('wechat.oauth_user'); // 拿到授权用户资料
+                dd($user);
+            });
+        });
+
+    Route::any('weixin/platform/server/{id}', 'WeixinPlatformController@server'); //第三方平台微信事件接收接口
+    Route::any('weixin/platform/auth', 'WeixinPlatformController@auth'); //第三方平台微信公众号授权后接收接口
+    Route::get('weixin/token', 'WeixinPlatformController@getAccessToken'); //微信
+    Route::get('weixin/orders/create', 'WeixinPlatformController@orderCreate'); //微信
+    Route::any('weixin/notice', 'WeixinPlatformController@sendNotice'); //模板消息
+
+
 });
 
