@@ -211,41 +211,26 @@ class WeixinPlatformController extends Controller
         try {
             $app = app('wechat');
             $notice = $app->notice;
-//        $templateId = $notice->addTemplate("TM00002");
-//        Log::info('创建模板ID',[$templateId,__METHOD__]);
             $templateArr = $notice->getPrivateTemplates();
             Log::info('模板列表', [$templateArr, __METHOD__]);
-//        $messageId = $notice->send([
-//            'touser' => 'oYzfov2raQuxOG0S_Mv4eoX69Cps',
-////            'template_id' => $templateId,
-//            'url' => 'http://shouhou.yipinxiaobai.com/api/v1/weixin/orders/536969186711176198/show',
-//            'data' => [
-//                "first"    => array("下单成功！", '#555555'),
-//                "keyword1" => array("171201100201302634", "#FF0000"),
-//                "keyword2" => array("2017-12-04", "#888888"),
-//        ],
-//        ]);
-//        Log::info('模板消息ID',[$messageId,__METHOD__]);
             $messageId = $notice->send([
                 'touser' => 'oYzfov2raQuxOG0S_Mv4eoX69Cps',
-//            'template_id' => 'E5FVz2OunMtIp9aEje3bF3n9dpZSX_McBuv2rGVTMbM',
-                'template_id' => 'xcdVz2OunMtIp9aEje3bF3n9dpZSX_McBuv2rGVTMbM',
-                'url' => 'http://shouhou.yipinxiaobai.com/api/v1/weixin/orders/536880791171367940/show',
+                'template_id' => 'yThwCBLqv_tSrdJYlKjYjvBcyuxBGqqkRhgLJ3k_kow',
+                'url' => 'http://test.4d4k.com/api/weixin/mp/user',
                 'data' => [
-                    "title" => array("下单成功！"),
-                    "desc" => array("已安排工程师上门"),
-                    "order_no" => array("171130103701752935"),
-                    "service_mode" => array("上门"),
-                    "worker_name" => array("国强师傅-18513117316"),
-                    "booked_at" => array("2017-11-30 12:00:00"),
-                    "remark" => array('工程师：国强师傅-18513117316 ""请保持电话畅通，等待上门。'),
+                    "first" => array("下单成功！"),
+                    "keyword1" => array("已安排工程师上门"),
+                    "keyword2" => array("171130103701752935"),
+                    "keyword3" => array("上门"),
+                    "keyword4" => array("2017-11-30 12:00:00"),
+                    "keyword5" => array("国强师傅-18513117316"),
+                    "remark" => array('请保持电话畅通，等待上门。'),
                 ],
             ]);
             Log::info('模板消息ID', [$messageId, __METHOD__]);
             return '模板消息发送成功';
         } catch (HttpException $e) {
             Log::error($e, [__METHOD__]);
-            echo "nidaye";
             return $e->getMessage() . ',code:' . $e->getCode();
         }
 

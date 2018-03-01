@@ -28,6 +28,9 @@ class UnauthorizedListener
     public function handle(Unauthorized $event)
     {
         //
+        $openPlatform = app('wechat')->open_platform;
+        $info = $openPlatform->getAuthorizationInfo();
+        Log::notice('公众号授权事件凭证+更新状态:', [$info->toArray()]);
         Log::info('公众号授权事件',[$event->message,__METHOD__]);
 
     }

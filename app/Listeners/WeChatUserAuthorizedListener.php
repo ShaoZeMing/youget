@@ -30,5 +30,6 @@ class WeChatUserAuthorizedListener
         //
 
         Log::info('用户网页授权事件',[$event->getUser(),$event->isNewSession,__METHOD__]);
+        
     }
 }

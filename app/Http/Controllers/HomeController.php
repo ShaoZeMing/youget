@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\WeixinMsgEvent;
 use Illuminate\Support\Facades\Log;
+use Ixudra\Curl\Facades\Curl;
 use Overtrue\LaravelWechat\Events\OpenPlatform\Authorized;
 
 class HomeController extends Controller
@@ -22,7 +23,23 @@ class HomeController extends Controller
 
     public function welcome()
     {
-    return view('welcome');
+
+
+        //微信測試長鏈接
+//        $webData =  [
+//            'type' => 'payment',
+//            'order_id' => '232323232323232',
+//            'status' => 1,
+//            'content' => '支付成功',
+//        ];
+//        $data = [
+//            'user_ids' => ['540431042297725955'],
+//            'data' => $webData,
+//        ];
+//        $response = Curl::to('http://47.52.28.117:9504')->withData($data)->post();
+//        echo '113';
+//        dd($response);
+        return view('welcome');
     }
 
     /**
@@ -33,7 +50,7 @@ class HomeController extends Controller
     public function index()
     {
         try {
-            $data['auth_url'] = 'blog.4d4k.com';
+            $data['auth_url'] = 'http://blog.4d4k.com';
             try {
                 //邮件报警
                 //微信授权
