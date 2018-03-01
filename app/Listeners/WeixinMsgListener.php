@@ -27,5 +27,7 @@ class WeixinMsgListener
     public function handle(WeixinMsgEvent $event)
     {
         //
+        \Log::info('555555555555555555555555',[$event->msg,__METHOD__]);
+
     }
 }

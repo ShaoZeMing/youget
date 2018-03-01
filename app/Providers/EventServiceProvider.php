@@ -20,19 +20,19 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\WeixinMsgListener',
         ],
         //OAuth 网页授权
-        '\Overtrue\LaravelWechat\Events\WeChatUserAuthorized' => [
+        'Overtrue\LaravelWechat\Events\WeChatUserAuthorized' => [
             'App\Listeners\WeChatUserAuthorizedListener',
         ],
         //开放平台授权成功
-        '\Overtrue\LaravelWechat\Events\OpenPlatform\Authorized' => [
+        'Overtrue\LaravelWechat\Events\OpenPlatform\Authorized' => [
             'App\Listeners\AuthorizedListener',
         ],
         //平台更新授权
-        '\Overtrue\LaravelWechat\Events\OpenPlatform\UpdateAuthorized' => [
+        'Overtrue\LaravelWechat\Events\OpenPlatform\UpdateAuthorized' => [
             'App\Listeners\UpdateAuthorizedListener',
         ],
         //开放平台取消授权
-        '\Overtrue\LaravelWechat\Events\OpenPlatform\Unauthorized' => [
+        'Overtrue\LaravelWechat\Events\OpenPlatform\Unauthorized' => [
             'App\Listeners\UnauthorizedListener',
         ],
     ];

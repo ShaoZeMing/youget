@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\WeixinMsgEvent;
 use Illuminate\Support\Facades\Log;
+use Overtrue\LaravelWechat\Events\OpenPlatform\Authorized;
 
 class HomeController extends Controller
 {
@@ -32,6 +34,11 @@ class HomeController extends Controller
     {
         try {
             $data['auth_url'] = 'blog.4d4k.com';
+
+//            event(new WeixinMsgEvent('123456'));
+            event(new Authorized('xxxxxxxx'));
+
+            dd(123);
             try {
                 //邮件报警
                 //微信授权

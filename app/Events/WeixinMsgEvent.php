@@ -14,14 +14,17 @@ class WeixinMsgEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    public $msg;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($msg)
     {
         //
+        \Log::info('mmmmmmmmmmmmmmmmmmm',[$msg]);
+        $this->msg = $msg;
     }
 
     /**
