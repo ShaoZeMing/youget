@@ -48,26 +48,25 @@ Route::group([
 
     Route::any('weixin/mp/server', 'WeixinController@server'); //单版本公众号微信接收事件接口
     Route::get('weixin/mp/menu/create', 'WeixinController@createMenu'); //创建微信菜单
-
+    Route::get('weixin/notice', 'WeixinController@sendNotice'); //模板消息
+    Route::get('weixin/orders/create', 'WeixinController@orderCreate'); //微信
     Route::group([
         'middleware' => ['web', 'wechat.oauth']],
         function () {
             Route::get('weixin/mp/user', 'WeixinController@user');
         });
 
-
+    Route::any('weixin/platform/server/{id}', 'WeixinPlatformController@server'); //第三方平台微信事件接收接口
+//    Route::any('weixin/platform/auth', 'WeixinPlatformController@auth'); //利用的sdk的配置路由，這個就不用了
+    Route::any('weixin/platform/target/{id}/auth', 'WeixinPlatformController@targetAuth'); //第三方平台微信公众号授权后接收接口
+    Route::get('weixin/token', 'WeixinPlatformController@getAccessToken'); //微信
+    Route::get('weixin/orders/create', 'WeixinPlatformController@orderCreate'); //微信
+    Route::get('weixin/platform/notice', 'WeixinPlatformController@sendNotice'); //模板消息
     Route::group([
         'middleware' => ['web', 'wechat.platform.oauth']],
         function () {
             Route::get('weixin/platform/user', 'WeixinPlatformController@user');
         });
-    Route::any('weixin/platform/server/{id}', 'WeixinPlatformController@server'); //第三方平台微信事件接收接口
-//    Route::any('weixin/platform/auth', 'WeixinPlatformController@auth'); //第三方平台微信公众号授权后接收接口
-    Route::any('weixin/platform/target/{id}/auth', 'WeixinPlatformController@targetAuth'); //第三方平台微信公众号授权后接收接口
-    Route::get('weixin/token', 'WeixinPlatformController@getAccessToken'); //微信
-    Route::get('weixin/orders/create', 'WeixinPlatformController@orderCreate'); //微信
-    Route::any('weixin/notice', 'WeixinPlatformController@sendNotice'); //模板消息
-
 
 });
 
