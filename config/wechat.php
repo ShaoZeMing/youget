@@ -61,7 +61,7 @@ return [
             'middleware' => null,
             'as' => 'easywechat::',
         ],
-        'open_platform_serve_url' => 'http://test.4d4k.com/api/weixin/platform/auth', // 开放平台服务URL
+        'open_platform_serve_url' => '/api/weixin/platform/server/{id}', // 开放平台服务URL
     ],
 
     /*

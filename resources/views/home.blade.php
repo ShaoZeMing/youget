@@ -20,7 +20,7 @@
 
         <div class="list-group">
             <a class="list-group-item" href="{{url('api/pay')}}" >支付测试</a>
-            <a class="list-group-item" href="{{$url}}" >授权</a>
+            <a class="list-group-item" href="{{$auth_url}}" >授权</a>
         </div>
     </div>
     </div>

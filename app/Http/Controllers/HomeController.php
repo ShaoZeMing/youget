@@ -16,6 +16,13 @@ class HomeController extends Controller
 //        $this->middleware('auth');
     }
 
+
+
+    public function welcome()
+    {
+    return view('welcome');
+    }
+
     /**
      * Show the application dashboard.
      *
@@ -24,12 +31,13 @@ class HomeController extends Controller
     public function index()
     {
         try {
+            $data['auth_url'] = 'blog.4d4k.com';
             try {
                 //邮件报警
                 //微信授权
                 $app = app('wechat');
                 $openPlatform = $app->open_platform;
-                $response = $openPlatform->pre_auth->redirect(url("api/v1/weixin/target/123456/auth"));
+                $response = $openPlatform->pre_auth->redirect(url("api/weixin/platform/target/{id}/auth"));
                 // 获取跳转的 URL
                 $url = $response->getTargetUrl();
                 Log::info('获取预授权URL Code:', [$url]);

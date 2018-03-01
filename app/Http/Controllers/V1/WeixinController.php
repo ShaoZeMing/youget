@@ -242,7 +242,7 @@ class WeixinController extends Controller
                 'touser' => 'oYzfov2raQuxOG0S_Mv4eoX69Cps',
 //            'template_id' => 'E5FVz2OunMtIp9aEje3bF3n9dpZSX_McBuv2rGVTMbM',
                 'template_id' => 'xcdVz2OunMtIp9aEje3bF3n9dpZSX_McBuv2rGVTMbM',
-                'url' => 'http://shouhou.yipinxiaobai.com/api/v1/weixin/orders/536880791171367940/show',
+                'url' => 'http://test.4d4k.com/api/weixin/mp/user',
                 'data' => [
                     "title" => array("下单成功！"),
                     "desc" => array("已安排工程师上门"),

@@ -13,9 +13,9 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+//Route::middleware('auth:api')->get('/user', function (Request $request) {
+//    return $request->user();
+//});
 
 Route::post('phone/code', 'ApiController@sendVerifyCode');
 
@@ -52,14 +52,12 @@ Route::group([
     Route::group([
         'middleware' => ['web', 'wechat.oauth']],
         function () {
-            Route::get('weixin/mp/user', function () {
-                $user = session('wechat.oauth_user'); // 拿到授权用户资料
-                dd($user);
-            });
+            Route::get('weixin/mp/user', 'WeixinController@user');
         });
 
-    Route::any('weixin/platform/server/{id}', 'WeixinPlatformController@server'); //第三方平台微信事件接收接口
+//    Route::any('weixin/platform/server/{id}', 'WeixinPlatformController@server'); //第三方平台微信事件接收接口
     Route::any('weixin/platform/auth', 'WeixinPlatformController@auth'); //第三方平台微信公众号授权后接收接口
+    Route::any('weixin/platform/target/{id}/auth', 'WeixinPlatformController@targetAuth'); //第三方平台微信公众号授权后接收接口
     Route::get('weixin/token', 'WeixinPlatformController@getAccessToken'); //微信
     Route::get('weixin/orders/create', 'WeixinPlatformController@orderCreate'); //微信
     Route::any('weixin/notice', 'WeixinPlatformController@sendNotice'); //模板消息

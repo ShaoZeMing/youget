@@ -28,7 +28,7 @@ class UpdateAuthorizedListener
     public function handle(UpdateAuthorized $event)
     {
         //
-        Log::info('授权事件',[$event->message,__METHOD__]);
+        Log::info('公众号授权事件',[$event->message,__METHOD__]);
 
     }
 }
