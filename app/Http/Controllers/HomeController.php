@@ -34,11 +34,6 @@ class HomeController extends Controller
     {
         try {
             $data['auth_url'] = 'blog.4d4k.com';
-
-//            event(new WeixinMsgEvent('123456'));
-            event(new Authorized('xxxxxxxx'));
-
-            dd(123);
             try {
                 //邮件报警
                 //微信授权

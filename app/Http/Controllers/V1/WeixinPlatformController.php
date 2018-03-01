@@ -90,6 +90,12 @@ class WeixinPlatformController extends Controller
 
 
 
+    //获取
+    public function user()
+    {
+        $user = session('wechat.platform.oauth_user'); // 拿到授权用户资料
+        dd($user);
+    }
 
 
     /**
