@@ -55,8 +55,8 @@ Route::group([
             Route::get('weixin/mp/user', 'WeixinController@user');
         });
 
-//    Route::any('weixin/platform/server/{id}', 'WeixinPlatformController@server'); //第三方平台微信事件接收接口
-    Route::any('weixin/platform/auth', 'WeixinPlatformController@auth'); //第三方平台微信公众号授权后接收接口
+    Route::any('weixin/platform/server/{id}', 'WeixinPlatformController@server'); //第三方平台微信事件接收接口
+//    Route::any('weixin/platform/auth', 'WeixinPlatformController@auth'); //第三方平台微信公众号授权后接收接口
     Route::any('weixin/platform/target/{id}/auth', 'WeixinPlatformController@targetAuth'); //第三方平台微信公众号授权后接收接口
     Route::get('weixin/token', 'WeixinPlatformController@getAccessToken'); //微信
     Route::get('weixin/orders/create', 'WeixinPlatformController@orderCreate'); //微信

@@ -26,45 +26,45 @@ class WeixinPlatformController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-//    public function server(Request $request,$id)
-//    {
-//
-//        Log::info('获取请求数据platform', [$request, $id, __METHOD__]);
-//
-//        $app = app('wechat')->open_platform->server;
-//        $msgArr = $app->getMessage();
-//        Log::info('请求message', $msgArr);
-//        $app->setMessageHandler(function ($message) {
-//            switch ($message->MsgType) {
-//                case 'event':
-//                    return '收到事件消息';
-//                    break;
-//                case 'text':
-//                    return '收到文字消息';
-//                    break;
-//                case 'image':
-//                    return '收到图片消息';
-//                    break;
-//                case 'voice':
-//                    return '收到语音消息';
-//                    break;
-//                case 'video':
-//                    return '收到视频消息';
-//                    break;
-//                case 'location':
-//                    return '收到坐标消息';
-//                    break;
-//                case 'link':
-//                    return '收到链接消息';
-//                    break;
-//                // ... 其它消息
-//                default:
-//                    return '收到其它消息';
-//                    break;
-//            }
-//        });
-//        return $app->serve();
-//    }
+    public function server(Request $request,$id)
+    {
+
+        Log::info('获取请求数据platform', [$request, $id, __METHOD__]);
+
+        $app = app('wechat')->open_platform->server;
+        $msgArr = $app->getMessage();
+        Log::info('请求message', $msgArr);
+        $app->setMessageHandler(function ($message) {
+            switch ($message->MsgType) {
+                case 'event':
+                    return '收到事件消息';
+                    break;
+                case 'text':
+                    return '收到文字消息';
+                    break;
+                case 'image':
+                    return '收到图片消息';
+                    break;
+                case 'voice':
+                    return '收到语音消息';
+                    break;
+                case 'video':
+                    return '收到视频消息';
+                    break;
+                case 'location':
+                    return '收到坐标消息';
+                    break;
+                case 'link':
+                    return '收到链接消息';
+                    break;
+                // ... 其它消息
+                default:
+                    return '收到其它消息';
+                    break;
+            }
+        });
+        return $app->serve();
+    }
 
     //授权成功跳转页面
     public function targetAuth(Request $request, $id)

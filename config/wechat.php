@@ -61,7 +61,7 @@ return [
             'middleware' => null,
             'as' => 'easywechat::',
         ],
-        'open_platform_serve_url' => '/api/weixin/platform/server/{id}', // 开放平台服务URL
+        'open_platform_serve_url' => '/api/weixin/platform/auth', // 开放平台服务URL
     ],
 
     /*
@@ -86,7 +86,7 @@ return [
     'oauth' => [
         'only_wechat_browser' => false,
         'scopes'   => array_map('trim', explode(',', env('WECHAT_OAUTH_SCOPES', 'snsapi_userinfo'))),
-        'callback' => env('WECHAT_OAUTH_CALLBACK', 'http://test.4d4k.com/api/weixin/platform/auth'),
+        'callback' => env('WECHAT_OAUTH_CALLBACK', ''),
     ],
 
     /*
