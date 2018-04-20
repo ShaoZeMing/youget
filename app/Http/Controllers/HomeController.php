@@ -26,19 +26,18 @@ class HomeController extends Controller
 
 
         //微信測試長鏈接
-//        $webData =  [
-//            'type' => 'payment',
-//            'order_id' => '232323232323232',
-//            'status' => 1,
-//            'content' => '支付成功',
-//        ];
-//        $data = [
-//            'user_ids' => ['540431042297725955'],
-//            'data' => $webData,
-//        ];
+        $webData =  [
+            'type' => 'payment',
+            'order_id' => '232323232323232',
+            'status' => 1,
+            'content' => '支付成功',
+        ];
+        $data = [
+            'user_ids' => ['540431042297725955'],
+            'data' => $webData,
+        ];
 //        $response = Curl::to('http://47.52.28.117:9504')->withData($data)->post();
-//        echo '113';
-//        dd($response);
+        $response = Curl::to('http://apitest.ngrok.xiaomiqiu.cn/api/importData/client.do')->withData($data)->post();
         return view('welcome');
     }
 

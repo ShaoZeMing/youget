@@ -5,7 +5,7 @@
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">扫码测试</div>
-                <div class="panel-body">
+                <div class="panel-body" style=" text-align: center">
                     {{--$code--}}
                     {!! isset($code) ? $code :'没有数据' !!}
                 </div>

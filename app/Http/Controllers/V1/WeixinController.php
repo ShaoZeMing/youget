@@ -127,7 +127,7 @@ class WeixinController extends Controller
                 [
                     "type" => "view",
                     "name" => "在线下单",
-                    "url" => "https://bm.dxlsd.com.cn/api/v1/weixin/orders/123/index"
+                    "url" => "http://saas1.4d4k.com/api/v1/weixin/orders/xiadan"
                 ],
                 [
                     "name" => "最新活动",
